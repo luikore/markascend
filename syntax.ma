@@ -46,15 +46,15 @@ h3 headers
 
 h3 lists
 
-ul
+`-` stands for ul
 |
   - an entry
   - another entry
 
-ol
+`+` stands for ol
 |
-  # entry 1
-  # entry 2
+  + entry 1
+  + entry 2
 
 h3 quote
 
@@ -94,7 +94,7 @@ the following macros explains themselves:
 
 since we have `html` macro, all tags outside of it will be stripped.
 
-slim is a template engine which makes html much simpler:
+slim is a template engine which makes html much cleaner:
 |
   \slim{a href="/" Home}
 
@@ -123,10 +123,6 @@ for block-styled math
     \begin{align} \\
     & \rm{MathJax}\ \LaTeX \ \rm{Example} \\ \\
     \end{align}
-
-the following generates a tag link, the link format is default `"/tag/%s"` and can be configed in the prelude
-|
-  \tag{objc}
 
 options is a special macro, they are not processed by markascend, but you can get them with API (see below)
 |

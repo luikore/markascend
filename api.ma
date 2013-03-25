@@ -11,6 +11,7 @@ h3 compile options
   |ruby
     enabled_macros: :all # the default is to enable all
     Markascend.compile post_from_other_people
+- `:inline_img`, compile image into inlined base64, default = `false`
 
 h3 adding macros
 
