@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>ma</string>
+		<string>markascend</string>
+	</array>
+	<key>name</key>
+	<string>Markascend</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>begin</key>
+			<string>^h([1-6])(\#\w+(\-\w+)*)?\ </string>
+			<key>end</key>
+			<string>\s*$\n?</string>
+			<key>name</key>
+			<string>markup.heading.$1.markascend</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>^(\ *)\|\ *(?!\d)\w*$</string>
+			<key>name</key>
+			<string>markup.raw.block.markascend</string>
+			<key>while</key>
+			<string>^\1\ {2,}.*$|^\ *$</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>\`(?:\\\\|\\\`|[^`])*\`</string>
+			<key>name</key>
+			<string>markup.raw.inline.markascend</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?&lt;!\\)\$.+?\$</string>
+			<key>name</key>
+			<string>meta.tag.inline.markascend</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?&lt;!\\)\*\*.+?\*\*</string>
+			<key>name</key>
+			<string>markup.bold.markascend</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?&lt;!\\)\*(?!\*).+?\*</string>
+			<key>name</key>
+			<string>markup.italic.markascend</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>not possible</string>
+			<key>name</key>
+			<string>test</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.markascend</string>
+	<key>uuid</key>
+	<string>51614D4D-628C-4D7A-9060-FA1952F4C52C</string>
+</dict>
+</plist>

@@ -1,0 +1,6 @@
+desc "run tests"
+task :default do
+  Dir.glob "#{__dir__}/test/*_test.rb" do |f|
+    require f
+  end
+end
