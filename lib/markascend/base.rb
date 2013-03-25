@@ -14,9 +14,6 @@ module Markascend
     end
 
     def parse
-      if @linenum == 0
-        parse_prelude
-      end
       while parse_rec_block or parse_hx or parse_line
       end
       raise "failed to parse at: #{@linenum}" unless @src.eos?
@@ -27,28 +24,25 @@ module Markascend
       return unless @src.match? REC_START
       line, block = scan_line_and_block
       return unless line
-      rec_block = line[REC_START]
+      rec_start = line[REC_START]
       wrapper_begin, elem_begin, elem_end, wrapper_end =
-        case rec_block
-        when '+ '; ['<ul>', '<li>', '</li>', '/ul']
+        case rec_start
+        when '+ '; ['<ol>', '<li>', '</li>', '/ol']
         when '- '; ['<ul>', '<li>', '</li>', '/ul']
         when '> '; ['', '<quote>', '</quote>', '']
         end
 
       @out << wrapper_begin
       @out << elem_begin
-      @out << Markascend.new(line[2..-1] + block, @linenum).parse
+      @out << Base.new("#{line[2..-1]}#{block}", @linenum).parse
       @out << elem_end
-      while @src.match?(REC_BLOCK_STARTS[rec_block])
+      while @src.match?(REC_BLOCK_STARTS[rec_start])
         @out << elem_begin
         parse_line
         @out << elem_end
       end
       @out << wrapper_end
       true
-    end
-
-    def parse_prelude
     end
 
     def parse_hx
@@ -100,6 +94,7 @@ module Markascend
           block.gsub! /^#{indent}/, ''
         end
       end
+      # TODO inc linenum
       [line, block]
     end
   end

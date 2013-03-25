@@ -10,4 +10,9 @@ class BaseTest < MarkascendTest
     b = Base.new "h3 followed by \\nonsense a block\n  content of block", 0
     assert_equal "<h3>followed by \\nonsense a block\n</h3>", b.parse
   end
+
+  def test_rec_block
+    b = Base.new "- ul1\n- ul2"
+    assert_equal "<ul><li>ul1\n</li><li>- ul2</li>/ul", b.parse
+  end
 end
