@@ -1,9 +1,9 @@
 h3 Design principles
 
-- I love markdown but feel some little flaws, a simpler markdown should be better.
+- A simpler *Markdown* should be better.
 - Since a markup language usually need to process several different syntaces in one article, language composition becomes important in syntax design.
 - TeX macro syntax is nearly perfect for extending the language, but not very visual intuitive when there are too much backslashes and bracers.
-- Layout-based grammar (indentation sensitive) can make a cleaner way for language composition.
+- Layout-based grammar (indentation sensitive) shows a cleaner way for language composition and cleaning up macros.
 
 \hi(ma)
 
@@ -117,7 +117,7 @@ To put HTML in, you can use the `\html` macro
 |
   \html{<hr>}
 
-Slim is a template engine which makes html much cleaner:
+*Slim* is a template engine which makes html much cleaner:
 |
   \slim{a href="/" Home}
 
@@ -147,7 +147,7 @@ For block-styled math
     & \rm{MathJax}\ \LaTeX \ \rm{Example} \\ \\
     \end{align}
 
-`\options` is a special macro. The content *YAML* is not processed by *Markascend*, but retrievable with API. This is designed for the purpose of blogger generators.
+`\options` is a special macro. The content *YAML* is not processed by *Markascend*, but retrievable with API. This is designed for blogger generators: you can put metadata inside the document.
 |
   \options
     tags: [markascend readme]
@@ -159,7 +159,7 @@ To change default code syntax highliter (See [#syn-hi-macros](below) for details
 
 h3 Notes on macros
 
-Macro name is case sensitive, starts with a word-character but not digit, and contains no symbols or punctuations. The rule expressed in (Onigmo) regexp is `(?!\d)\w+`. For example, `你2` is valid, but `2你` is invalid.
+Macro name is case sensitive, starts with a word-character but not digit, and contains no symbols or punctuations. The rule expressed in (Onigmo) regexp is `(?!\d)\w+`. For example, `你2` is valid name, but `2你` is invalid.
 
 Macros can be of inline form (`\macro{content}`) or block form (`\macro` and the indented block in following lines is the content of the macro).
 
@@ -196,7 +196,7 @@ To generate a twitter or weibo link
 
 To generate a wiki link
 |
-  \wiki[ruby(programing_language)]
+  \wiki{ruby(programing_language)}
 
 Embed gist
 |
@@ -206,7 +206,7 @@ Embed video (currently should recognize youtube, vimeo and niconico)
 |
   \video(youtube.com/abc)
 
-h3#syn-hi-macros Syntax hilite macros
+h3#syn-hi-macros Syntax hilite macros and code blocks
 
 Inline code can also have syntax hiliter
 
@@ -219,8 +219,9 @@ Inline code can also have syntax hiliter
     this part also has no syntax hilite
 
 To specify syntax in block form (this won't change default syntax):
-|rb
-  puts 'hello world'
+|
+  |rb
+    puts 'hello world'
 
 h3 Combining macro blocks, lists and quotes
 
