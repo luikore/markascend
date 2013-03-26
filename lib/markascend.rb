@@ -1,7 +1,8 @@
 require "strscan"
-require_relative "markascend/base"
+require "cgi"
+require_relative "markascend/parser"
 require_relative "markascend/line_unit"
-require_relative "markascend/macros"
+require_relative "markascend/macro"
 
 module Markascend
   VERSION = '0.1'

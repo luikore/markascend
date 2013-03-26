@@ -1,5 +1,5 @@
 module Markascend
-  class Base
+  class Parser
     REC_START = /\A[\+\-\>]\ /
     REC_BLOCK_STARTS = {
       '+ ' => /\+\ /,
@@ -10,10 +10,10 @@ module Markascend
     def initialize src, start_linenum=0
       @src = StringScanner.new src
       @linenum = start_linenum
-      @out = []
     end
 
     def parse
+      @out = []
       while parse_rec_block or parse_hx or parse_line
       end
       raise "failed to parse at: #{@linenum}" unless @src.eos?
@@ -34,7 +34,7 @@ module Markascend
 
       @out << wrapper_begin
       @out << elem_begin
-      @out << Base.new("#{line[2..-1]}#{block}", @linenum).parse
+      @out << Parser.new("#{line[2..-1]}#{block}", @linenum).parse
       @out << elem_end
       while @src.match?(REC_BLOCK_STARTS[rec_start])
         @out << elem_begin

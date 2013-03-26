@@ -1,3 +1,0 @@
-module Markascend
-  
-end

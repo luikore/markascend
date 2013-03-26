@@ -134,17 +134,32 @@ to change default syntax for code that without language (details see below):
   \hi(rb)
   \hi(none)
 
+to use markascend as a template engine, use the following macros
+|
+  \ruby{ value of ruby code sanitized }
+  \ruby_eval{ ruby code output ignoreed }
+  \ruby_raw{ ruby code output raw }
+
 h3 macros notes
 
 macro name should be compatible with ruby method name.
 
 macros can be inline form (`\macro{content}`) or block form (`\macro` and the indented block in next lines is the content of the macro).
 
-Inline macros can use different delimiters for convinience, the forms are: `\macro(content)`, `\macro[content]`,  `\macro"content"`, `\macro'content'`, `\macro|content|` and a special form `\macro<content>` (inside which back slashes are not used as escapes).
-    
-Only 1 block-style macro name is allowed in a line.
+Inline macros can use some different delimiters for convinience, allowed ones are: `\macro(content)` and `\macro{content}`.
 
-NOTE: The basic parsing unit is a line and a block, every parsing starts with this unit --- so don't hand-add space indentations to paragraphs, let css do it.
+In the form `\macro(content)`, the content is parsed by lexical rule. The parser handles and only handles 2 escape chars: `\\` and `\)`, very much like single quoted string in Ruby.
+Example: `\macro(\ and \\ are both single-backslash. nest: (\))`
+
+In the form `\macro{content}`, you don't escape chars in the content, and can put in recursively nested braces. When you need to put an unmatched `{` or `}` in the content, use the previous form.
+Example: `\macro{\\ is two backslashes. nest: {}}`
+
+Design note: There are actual very few symbols left for us... for example `[]`, `$$`, `|` may confuse with link or math or code elements. Symbols like `"`, `'`, `()`, `<>` are not good either, because they are common when composing an article.
+
+NOTE:
+
+- Only 1 block-style macro name is allowed inside a line.
+- The basic parsing unit is a line and a block, every parsing starts with this unit --- so don't hand-add space indentations to paragraphs, let css do it.
 
 h3 chart macros
 
