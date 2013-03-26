@@ -1,5 +1,5 @@
 module Markascend
-  LineUnit = Struct.new :line, :block, :linenum
+  LineUnit = Struct.new :env, :line, :block, :linenum
   # process a line with (maybe) a followed up indented block
   class LineUnit
     class << self

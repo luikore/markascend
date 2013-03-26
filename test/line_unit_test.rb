@@ -6,7 +6,8 @@ class LineUnitTest < MarkascendTest
   end
 
   def test_nested_italic_and_bold
-    l = LineUnit.new 'outside***i*b**', nil, 0
+    env = {}
+    l = LineUnit.new env, 'outside***i*b**', nil, 0
     assert_equal 'outside<b><i>i</i>b</b>', l.parse
   end
 end

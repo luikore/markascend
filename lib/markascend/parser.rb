@@ -7,9 +7,10 @@ module Markascend
       '> ' => /\>\ /
     }
 
-    def initialize src, start_linenum=0
+    def initialize env, src, start_linenum=0
       @src = StringScanner.new src
       @linenum = start_linenum
+      @env = env
     end
 
     def parse
@@ -34,7 +35,7 @@ module Markascend
 
       @out << wrapper_begin
       @out << elem_begin
-      @out << Parser.new("#{line[2..-1]}#{block}", @linenum).parse
+      @out << Parser.new(@env, "#{line[2..-1]}#{block}", @linenum).parse
       @out << elem_end
       while @src.match?(REC_BLOCK_STARTS[rec_start])
         @out << elem_begin
@@ -64,7 +65,7 @@ module Markascend
     def parse_line
       line, block = scan_line_and_block
       return unless line
-      @out << LineUnit.new(line, block, @linenum).parse
+      @out << LineUnit.new(@env, line, block, @linenum).parse
       true
     end
 
