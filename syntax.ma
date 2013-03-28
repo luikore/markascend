@@ -16,17 +16,27 @@ h3 Inline elements
 |
   **bold**
 
-`code`
+Italic and bold elements can interpolate
+|
+  ***bold and italic*bold**
+
+`code` suject to the same rule as in markdown, no escape chars
 |
   `code`
+  ``to include "`", use more backticks as delimiter``
+  `` ` space before and after to disambig backtick number ``
 
-$math$
+$math$, inside which `\\` and `\$` are treated as atomic elements, no escape chars
 |
   $math$
+  $\\\$$ <- the content is parsed to latex processer as '\\\$'
+  $\\$$ <- NOTE this is a math elem with a pending dollar
 
 Link:
 |
-  [a](href)
+  url in lexical parens: [a](example.com/use/\\/for/backslash/and/\)/for/right/paren)
+  url in recursive braces: [a]{example.com/allow/{nested{braces}}/and/(parens)/in/url}
+  no need to escape backslashes in braces: [a]{file:\\\C:\windows}
 
 Link to anchor:
 |
@@ -68,7 +78,7 @@ h3 Lists
 
 h3 Quote
 
-Just one `>` is enough for a quote containing many lines
+Just one `>` is enough for a quote containing many lines (NOTE: use the similar rule as code block and allow quoter name?)
 |
   > You
     can
