@@ -23,23 +23,40 @@ module Markascend
 
     def parse_rec_block
       return unless @src.match? REC_START
+
+      # first elem, scans the whole of following string:
+      # |
+      #   + line 1 of the li. an embed \macro
+      #       macro content
+      #     line 2 of the li.
+      #     line 3 of the li.
+      #
+      # NOTE that first line is always not indented
       line, block = scan_line_and_block
       return unless line
       rec_start = line[REC_START]
       wrapper_begin, elem_begin, elem_end, wrapper_end =
         case rec_start
-        when '+ '; ['<ol>', '<li>', '</li>', '/ol']
-        when '- '; ['<ul>', '<li>', '</li>', '/ul']
+        when '+ '; ['<ol>', '<li>', '</li>', '</ol>']
+        when '- '; ['<ul>', '<li>', '</li>', '</ul>']
         when '> '; ['', '<quote>', '</quote>', '']
         end
+      elems = ["#{line[2..-1]}#{block}"]
 
+      # followed up elems
+      block_start_re = REC_BLOCK_STARTS[rec_start]
+      while @src.match?(block_start_re)
+        line, block = scan_line_and_block
+        break unless line
+        elems << "#{line[2..-1]}#{block}"
+      end
+
+      # generate
       @out << wrapper_begin
-      @out << elem_begin
-      @out << Parser.new(@env, "#{line[2..-1]}#{block}", @linenum).parse
-      @out << elem_end
-      while @src.match?(REC_BLOCK_STARTS[rec_start])
+      elems.each do |elem|
         @out << elem_begin
-        parse_line
+        elem.rstrip!
+        @out << Parser.new(@env, elem, @linenum).parse
         @out << elem_end
       end
       @out << wrapper_end
