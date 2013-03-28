@@ -16,9 +16,17 @@ class ParserTest < MarkascendTest
   end
 
   def test_rec_block
-    b = Parser.new @env, "- ul1\n- ul2\n  + ol1\n  + ol2"
+    b = Parser.new @env, <<-MA
+- ul1
+- ul2
+  + ol1
+  + ol2
+- > quote1
+    quote2
+MA
     ol = "<ol><li>ol1</li>" + "<li>ol2</li></ol>"
-    ul = "<ul><li>ul1</li>" + "<li>ul2<br>#{ol}</li></ul>"
-    assert_equal ul, b.parse
+    quote = "<quote>quote1<br>quote2</quote>"
+    ul = "<ul><li>ul1</li>" + "<li>ul2<br>#{ol}</li>" + "<li>#{quote}</li></ul>"
+    assert_equal ul, b.parse.strip
   end
 end

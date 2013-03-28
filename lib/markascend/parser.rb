@@ -32,7 +32,7 @@ module Markascend
       #     line 3 of the li.
       #
       # NOTE that first line is always not indented
-      line, block = scan_line_and_block
+      line, block = scan_line_and_block 2
       return unless line
       rec_start = line[REC_START]
       wrapper_begin, elem_begin, elem_end, wrapper_end =
@@ -46,7 +46,7 @@ module Markascend
       # followed up elems
       block_start_re = REC_BLOCK_STARTS[rec_start]
       while @src.match?(block_start_re)
-        line, block = scan_line_and_block
+        line, block = scan_line_and_block 2
         break unless line
         elems << "#{line[2..-1]}#{block}"
       end
@@ -86,7 +86,7 @@ module Markascend
       true
     end
 
-    def scan_line_and_block
+    def scan_line_and_block undent=:all
       if @src.scan(/\ *\t/)
         raise SyntaxError, "line starting with a tab: #@linenum"
       end
@@ -105,11 +105,15 @@ module Markascend
         block = nil if block =~ /\A\s*\z/
         # undent block
         if block
-          /
-            (?:\ *\n)*
-            (?<indent>\ {2,})
-          /x =~ block
-          block.gsub! /^#{indent}/, ''
+          if undent == :all
+            /
+              (?:\ *\n)*
+              (?<indent>\ {2,})
+            /x =~ block
+            block.gsub! /^#{indent}/, ''
+          else
+            block.gsub! /^\ \ /, ''
+          end
         end
       end
       # TODO inc linenum
