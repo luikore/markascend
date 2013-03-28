@@ -6,7 +6,7 @@ module Markascend
       attr_accessor :parsers
     end
     LineUnit.parsers = [
-      :parse_code,
+      :parse_inline_code,
       :parse_math,
       :parse_auto_link,
       :parse_escape,
@@ -33,18 +33,29 @@ module Markascend
       @out.join
     end
 
-    def parse_code
-      if (s = @src.scan /\`(\\[\\\`]|[^`])*\`/)
+    # the same as markdown
+    def parse_inline_code
+      if s = @src.scan(/
+          (`{1,})(\ ?)
+          .*?
+          \2\1
+        /x)
+        s =~ /^
+          (`{1,})(\ ?)
+          (.*?)
+          \2\1
+        $/x
         # TODO assign inline color class
         @out << '<code>'
-        @out << (CGI.escape_html s[1...-1].gsub(/\\([\\\`])/, '\1'))
+        @out << (CGI.escape_html $3)
         @out << '</code>'
         true
       end
     end
 
+    # no escape chars, but \\ and \$ are treated as atomic parsing units
     def parse_math
-      if (s = @src.scan /\$(?:\\\$|[^$])*\$/)
+      if (s = @src.scan /\$(?:\\[\\\$]|[^\$])*\$/)
         @out << '<code class="math">'
         @out << (CGI.escape_html s[1...-1])
         @out << '</code>'
