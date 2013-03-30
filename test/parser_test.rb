@@ -6,8 +6,8 @@ class ParserTest < MarkascendTest
   end
 
   def test_hx
-    b = Parser.new @env, "h1#centered lovely day!"
-    assert_equal "<h1 id=\"centered\">lovely day!</h1>", b.parse
+    b = Parser.new @env, "h1#cen-tered lovely day!"
+    assert_equal "<h1 id=\"cen-tered\">lovely day!</h1>", b.parse
   end
 
   def test_blocked_hx
