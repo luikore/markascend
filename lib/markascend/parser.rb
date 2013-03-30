@@ -18,6 +18,22 @@ module Markascend
       while parse_rec_block or parse_hx or parse_line
       end
       raise "failed to parse at: #{@linenum}" unless @src.eos?
+      @out.map! do |(node, content)|
+        case node
+        when :footnode_id_ref
+          if content < 1 or content > @env[:footnotes].size
+            raise "footnote not defined: #{content}"
+          end
+          %Q|<a href="#footnote-#{content}">#{content}</a>|
+        when :footnode_acronym_ref
+          unless index = @env[:footnotes].find_index{|k, _| k == content }
+            raise "footnote note defined: #{content}"
+          end
+          %Q|<a href="#footnote-#{index + 1}">#{content}</a>|
+        else
+          node
+        end
+      end
       @out.join
     end
 
@@ -82,7 +98,9 @@ module Markascend
     def parse_line
       line, block = scan_line_and_block
       return unless line
-      @out << LineUnit.new(@env, line, block, @linenum).parse
+      LineUnit.new(@env, line, block, @linenum).parse.each do |token|
+        @out << token
+      end
       true
     end
 

@@ -8,6 +8,6 @@ module Markascend
   VERSION = '0.1'
 
   def Markascend.compile src, opts
-    Baes.new({}, src).parse
+    Baes.new({footnotes: {}}, src).parse
   end
 end

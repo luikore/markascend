@@ -29,7 +29,7 @@ module Markascend
       @src = StringScanner.new line
       while LineUnit.parsers.any?{|p| send p}
       end
-      @out.join
+      @out
     end
 
     # the same as markdown
@@ -85,7 +85,7 @@ module Markascend
       pos = @src.pos
       return unless @src.scan(/\[/)
 
-      footnode_kind = @src.scan(/[\.\:]/)
+      footnote = @src.scan(/[\.\:]/)
       content = ''
       loop do
         if res = @src.scan(/\]/)
@@ -99,14 +99,36 @@ module Markascend
         end
       end
 
-      case footnode_kind
+      case footnote
       when '.'
+        unless explain = scan_lexical_parens || scan_recursive_braces
+          @src.pos = pos
+          return
+        end
+
+        footnotes = env[:footnotes]
+        if content =~ /\A\s*\z/
+          content = footnotes.size + 1
+        end
+        raise "Already defined footnote: #{content}" if footnotes.has_key?(content)
+        footnotes[content] = explain
+        # TODO id prefix configurable
+        @out << %Q|<a href="#footnote-#{footnotes.size}">#{content}</a>|
+        true
       when ':'
+        footnotes = env[:footnotes]
+        if content =~ /\A\s*(\d+)\s*\z/
+          @out << [:footnote_id_ref, $1.to_i]
+        else
+          content.strip!
+          @out << [:footnote_acronym_ref, content]
+        end
+        true
       else
         if addr = scan_lexical_parens || scan_recursive_braces
           # TODO smarter addr to recognize things like a.b.com
           addr.gsub!(/[\\\"]/, '\\\1')
-          @out << "<a href=\"#{addr}\">#{content}</a>"
+          @out << %Q|<a href="#{addr}">#{content}</a>|
           true
         else
           @src.pos = pos
@@ -186,22 +208,24 @@ module Markascend
 
     # {...}
     def scan_recursive_braces
-      s = @src.scan(/
-        (?<braces> \{
-          ([^\{]+ | \g<braces>)*  # recursive rule
-        \})
-      /x)
-      s[1...-1]
+      if s = @src.scan(/
+          (?<braces> \{
+            ([^\{]+ | \g<braces>)*  # recursive rule
+          \})
+        /x)
+        s[1...-1]
+      end
     end
 
     # (...)
     def scan_lexical_parens
-      s = @src.scan(/
-        \(
-          (?: \\ [\\\)] | [^\)] )+  # lexical rule
-        \)
-      /x)
-      s[1...-1].gsub(/\\[\)\\]/){|x| x[1]}
+      if s = @src.scan(/
+          \(
+            (?: \\ [\\\)] | [^\)] )+  # lexical rule
+          \)
+        /x)
+        s[1...-1].gsub(/\\[\)\\]/){|x| x[1]}
+      end
     end
   end
 end

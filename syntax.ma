@@ -41,10 +41,10 @@ Link:
 
 Footnotes:
 |
-  [.this is shown in footnote and replaced by a number]
-  [.this is shown in footnote and replaced by the acronym after pipe | *]
+  [.](this is shown in footnote and replaced by a number)
+  [.*](this is shown in footnote and replaced by the acronym)
 
-Using already defined footnote (one dot is define, two dots is reference):
+Using already defined footnote ("one more dot to use"):
 |
   [:1]
   [:link by acronym]

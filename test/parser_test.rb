@@ -29,4 +29,8 @@ MA
     ul = "<ul><li>ul1</li>" + "<li>ul2<br>#{ol}</li>" + "<li>#{quote}</li></ul>"
     assert_equal ul, b.parse.strip
   end
+
+  def test_footnote_validation
+
+  end
 end
