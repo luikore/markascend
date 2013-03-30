@@ -16,3 +16,5 @@ end
 require_relative "markascend/parser"
 require_relative "markascend/line_unit"
 require_relative "markascend/macro"
+require_relative "markascend/builtin_macros"
+require_relative "markascend/famous_company_macros"
