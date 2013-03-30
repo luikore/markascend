@@ -6,7 +6,7 @@ class LineUnitTest < MarkascendTest
   end
 
   def test_validate_line_unit
-    assert_equal LineUnit.instance_methods.grep(/parse_/).sort, LineUnit.parsers.sort
+    assert_equal LineUnit.instance_methods.grep(/parse_/).sort, Markascend.inline_parsers.sort
   end
 
   def test_nested_italic_and_bold

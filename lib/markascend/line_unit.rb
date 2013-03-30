@@ -2,10 +2,7 @@ module Markascend
   LineUnit = Struct.new :env, :line, :block, :linenum
   # process a line with (maybe) a followed up indented block
   class LineUnit
-    class << self
-      attr_accessor :parsers
-    end
-    LineUnit.parsers = [
+    Markascend.inline_parsers = [
       :parse_inline_code,
       :parse_math,
       :parse_auto_link,
@@ -27,7 +24,7 @@ module Markascend
 
       @out = []
       @src = StringScanner.new line
-      while LineUnit.parsers.any?{|p| send p}
+      while Markascend.inline_parsers.any?{|p| send p}
       end
       @out
     end
@@ -76,8 +73,14 @@ module Markascend
     def parse_macro
       return unless macro = @src.scan(/\\(?!\d)\w+/)
       macro = macro[1..-1]
-      block = scan_lexical_parens || scan_recursive_braces || self.block
-      @out << Macro.new(macro, block).parse
+      if block = scan_lexical_parens
+        inline_macro = true
+      elsif block = scan_recursive_braces
+        inline_macro = true
+      else
+        block = self.block
+      end
+      @out << Macro.new(macro, block, inline_macro).parse
       true
     end
 
