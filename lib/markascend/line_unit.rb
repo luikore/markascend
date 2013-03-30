@@ -9,7 +9,6 @@ module Markascend
       :parse_inline_code,
       :parse_math,
       :parse_auto_link,
-      :parse_escape,
       :parse_macro,
       # link/bold/italic can contain char
       # but link need not interpolate with bold or italic, seems too rare cased
@@ -23,7 +22,7 @@ module Markascend
       # block code
       if /^\|\ *(?!\d)(?<lang>\w+)\ *$/ =~ line
         # TODO hilite class
-        return "<code class='code-#{lang}'>#{(CGI.escape_html block) if block}</code>"
+        return "<code class=\"code-#{lang}\">#{(CGI.escape_html block) if block}</code>"
       end
 
       @out = []
@@ -74,37 +73,46 @@ module Markascend
       end
     end
 
-    def parse_escape
-      if (s = @src.scan /\\\W/)
-        @out << CGI.escape_html(s[1])
-        true
-      end
-    end
-
     def parse_macro
       return unless macro = @src.scan(/\\(?!\d)\w+/)
       macro = macro[1..-1]
-      if s = @src.scan(/
-          \(
-            (?: \\ [\\\)] | [^\)] )+  # lexical rule
-          \)
-        /x)
-        block = s[(macro.size + 2)...-1].gsub(/\\[\)\\]/){|x| x[1]}
-      elsif s = @src.scan(/
-          (?<braces> \{
-            ([^\{]+ | \g<braces>)*  # recursive rule
-          \})
-        /x)
-        block = s[(macro.size + 2)...-1]
-      else
-        block = self.block
-      end
+      block = scan_lexical_parens || scan_recursive_braces || self.block
       @out << Macro.new(macro, block).parse
       true
     end
 
     def parse_link
-      # TODO
+      pos = @src.pos
+      return unless @src.scan(/\[/)
+
+      footnode_kind = @src.scan(/[\.\:]/)
+      content = ''
+      loop do
+        if res = @src.scan(/\]/)
+          break
+        elsif res = parse_char(false)
+          content << res
+        else
+          # failed
+          @src.pos = pos
+          return
+        end
+      end
+
+      case footnode_kind
+      when '.'
+      when ':'
+      else
+        if addr = scan_lexical_parens || scan_recursive_braces
+          # TODO smarter addr to recognize things like a.b.com
+          addr.gsub!(/[\\\"]/, '\\\1')
+          @out << "<a href=\"#{addr}\">#{content}</a>"
+          true
+        else
+          @src.pos = pos
+          nil
+        end
+      end
     end
 
     def parse_bold_italic emit=true
@@ -157,7 +165,10 @@ module Markascend
             |\#x\h{4}
           );
         /x)
+      elsif c = @src.scan(/\\\W/)
+        c = CGI.escape_html c[1]
       elsif c = @src.scan(/\n/)
+        # TODO make it a symbol, and removable for some circumstances
         c = '<br>'
       elsif c = @src.scan(/./)
         c = CGI.escape_html c
@@ -171,6 +182,26 @@ module Markascend
       else
         c
       end
+    end
+
+    # {...}
+    def scan_recursive_braces
+      s = @src.scan(/
+        (?<braces> \{
+          ([^\{]+ | \g<braces>)*  # recursive rule
+        \})
+      /x)
+      s[1...-1]
+    end
+
+    # (...)
+    def scan_lexical_parens
+      s = @src.scan(/
+        \(
+          (?: \\ [\\\)] | [^\)] )+  # lexical rule
+        \)
+      /x)
+      s[1...-1].gsub(/\\[\)\\]/){|x| x[1]}
     end
   end
 end

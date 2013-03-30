@@ -37,15 +37,12 @@ Link:
   url in lexical parens: [a](example.com/use/\\/for/backslash/and/\)/for/right/paren)
   url in recursive braces: [a]{example.com/allow/{nested{braces}}/and/(parens)/in/url}
   no need to escape backslashes in braces: [a]{file:\\\C:\windows}
-
-Link to anchor:
-|
-  [#anchor]
+  link to anchor: [a](#anchor)
 
 Footnotes:
 |
   [.this is shown in footnote and replaced by a number]
-  [.this is shown in footnote and replaced by the acronym after pipe | \*]
+  [.this is shown in footnote and replaced by the acronym after pipe | *]
 
 Using already defined footnote (one dot is define, two dots is reference):
 |
@@ -184,6 +181,7 @@ Example: `\macro{\\ is two backslashes. nest: {}}`
 Design NOTE: There are actual very few symbols left for us... for example `[]`, `$$`, `|` may confuse with link or math or code elements. Symbols like `"`, `'`, `()`, `<>` are not good either, because they are common when composing an article.
 
 User NOTE:
+- The parsing rules for `(content)` and `{content}` are the same as in links.
 - Only 1 block-style macro name is allowed inside a line.
 - The basic parsing unit is a line and a block, every parsing starts with this unit --- so don't hand-add space indentations to paragraphs, let css do it.
 
