@@ -19,8 +19,8 @@ macro names are limited to names like ruby methods.
 
 TODO
 
-h3 extending the parser
+h3 customizing inline parsers
 
-The parser can also be extended with regular expression. For example, an extension to make `@` macros.
+Inline parsers can be changed, or reordered
 
 TODO
