@@ -68,7 +68,7 @@ module Markascend
       else
         block = self.block
       end
-      @out << Macro.new(env, macro, block, inline_macro).parse
+      @out << Macro.new(env, block, inline_macro).parse(macro)
       true
     end
 

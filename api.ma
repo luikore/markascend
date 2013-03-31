@@ -22,8 +22,8 @@ More macro processors can be added by
 
 |ruby
   class Markascend::Macro
-    def parse_fancy_macro content, is_inline
-      ...
+    def parse_fancy_macro
+      ... compose result string with: env, content, inline
     end
   end
 
@@ -39,7 +39,7 @@ More line-unit parsers can be added by
 |ruby
   class Markascend::LineUnit
     def parse_at
-      ...
+      ... compose result string with: env, line, block, linenum
     end
   end
 

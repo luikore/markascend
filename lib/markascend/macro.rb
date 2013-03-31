@@ -1,15 +1,12 @@
 module Markascend
+  Macro = Struct.new :env, :content, :inline
   class Macro
-    def initialize env, name, content, inline
-      @env = env
+    def parse name
       if meth = env[:macros][name]
-        @parse = send meth, content, inline
+        send meth
       else
-        # keep undefined macros
-        @parse = "\\#{name}"
+        "\\#{name}"
       end
     end
-
-    attr_reader :parse
   end
 end
