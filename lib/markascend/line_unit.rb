@@ -2,29 +2,17 @@ module Markascend
   LineUnit = Struct.new :env, :line, :block, :linenum
   # process a line with (maybe) a followed up indented block
   class LineUnit
-    Markascend.inline_parsers = [
-      :parse_inline_code,
-      :parse_math,
-      :parse_auto_link,
-      :parse_macro,
-      # link/bold/italic can contain char
-      # but link need not interpolate with bold or italic, seems too rare cased
-      :parse_link,
-      # bold and italic can interpolate each other
-      :parse_bold_italic,
-      :parse_char
-    ]
-
     def parse
       # block code
       if /^\|\ *(?!\d)(?<lang>\w+)\ *$/ =~ line
         # TODO hilite class
-        return "<code class=\"code-#{lang}\">#{(CGI.escape_html block) if block}</code>"
+        return "<code class=\"code-#{lang}\">#{(Markascend.escape_html block) if block}</code>"
       end
 
       @out = []
       @src = StringScanner.new line
-      while Markascend.inline_parsers.any?{|p| send p}
+      parsers = env[:line_units]
+      while parsers.any?{|p| send p}
       end
       @out
     end
@@ -43,7 +31,7 @@ module Markascend
         $/x
         # TODO assign inline color class
         @out << '<code>'
-        @out << (CGI.escape_html $3)
+        @out << (Markascend.escape_html $3)
         @out << '</code>'
         true
       end
@@ -53,7 +41,7 @@ module Markascend
     def parse_math
       if (s = @src.scan /\$(?:\\[\\\$]|[^\$])*\$/)
         @out << '<code class="math">'
-        @out << (CGI.escape_html s[1...-1])
+        @out << (Markascend.escape_html s[1...-1])
         @out << '</code>'
         true
       end
@@ -64,7 +52,7 @@ module Markascend
       if (s = @src.scan /(https|http|ftp|mailto)\:\/\/\S+/)
         s.gsub! /"/, '\\"'
         @out << '<a href="#{s}">'
-        @out << (CGI.escape_html s)
+        @out << (Markascend.escape_html s)
         @out << '</a>'
         true
       end
@@ -80,7 +68,7 @@ module Markascend
       else
         block = self.block
       end
-      @out << Macro.new(macro, block, inline_macro).parse
+      @out << Macro.new(env, macro, block, inline_macro).parse
       true
     end
 
@@ -130,7 +118,7 @@ module Markascend
       else
         if addr = scan_lexical_parens || scan_recursive_braces
           # TODO smarter addr to recognize things like a.b.com
-          addr.gsub!(/[\\\"]/, '\\\1')
+          addr = Markascend.escape_attr addr
           @out << %Q|<a href="#{addr}">#{content}</a>|
           true
         else
@@ -191,12 +179,12 @@ module Markascend
           );
         /x)
       elsif c = @src.scan(/\\\W/)
-        c = CGI.escape_html c[1]
+        c = Markascend.escape_html c[1]
       elsif c = @src.scan(/\n/)
         # TODO make it a symbol, and removable for some circumstances
         c = '<br>'
       elsif c = @src.scan(/./)
-        c = CGI.escape_html c
+        c = Markascend.escape_html c
       else
         return
       end

@@ -1,12 +1,12 @@
 require_relative "test_helper"
 
 class LineUnitTest < MarkascendTest
-  def before
-    @env = {}
+  def setup
+    @env = Markascend.build_env({})
   end
 
-  def test_validate_line_unit
-    assert_equal LineUnit.instance_methods.grep(/parse_/).sort, Markascend.inline_parsers.sort
+  def test_validate_default_line_unit_parser_list
+    assert_equal LineUnit.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_LINE_UNITS.sort
   end
 
   def test_nested_italic_and_bold
@@ -23,15 +23,11 @@ class LineUnitTest < MarkascendTest
     assert_equal '<code class="math">\\\\math\$ </code>', parse('$\\\\math\$ $').join
   end
 
-  def test_inline_macro
-  end
-
   def test_link
     assert_equal '<a href="href">a</a>', parse('[a](href)').join
   end
 
   def test_footnote
-    @env = {footnotes: {}}
     assert_equal '<a href="#footnote-1">1</a>', parse('[.](first note)').join
     assert_equal '<a href="#footnote-2">two</a>', parse('[.two](second note)').join
     assert_equal [:footnote_id_ref, 1], parse('[:1]').first

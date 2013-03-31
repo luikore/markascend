@@ -1,11 +1,9 @@
 module Markascend
   class Macro
-    Markascend.macros = [
-    ]
-
-    def initialize name, content, inline
-      if Markascend.macros.include?(name)
-        @parse = send "parse_#{name}", content, inline
+    def initialize env, name, content, inline
+      @env = env
+      if meth = env[:macros][name]
+        @parse = send meth, content, inline
       else
         # keep undefined macros
         @parse = "\\#{name}"

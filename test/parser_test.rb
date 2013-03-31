@@ -1,8 +1,8 @@
 require_relative "test_helper"
 
 class ParserTest < MarkascendTest
-  def before
-    @env = {}
+  def setup
+    @env = Markascend.build_env({})
   end
 
   def test_hx
