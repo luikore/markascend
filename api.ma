@@ -1,26 +1,49 @@
-h3 compile
+h3 Compile
 
 |ruby
   Markascend.compile src, options
 
-h3 compile options
+h3 Options
 
-- `:autolink`, default = `%w[http https ftp mailto]`
-- `:enabled_macros`, default = `:all`
-  You can choose what macros are allowed and what are not by setting a white list:
-  |ruby
-    enabled_macros: :all # the default is to enable all
-    Markascend.compile post_from_other_people
+- `:autolink`, default value is `%w[http https ftp mailto]`
 - `:inline_img`, compile image into inlined base64, default = `false`
+- `:macros`, the value can be
+  - `nil`(default), which means using standard macros only.
+  - An array (unordered) telling the names of enabled macros.
+- `:line_units`, the value can be
+  - `nil`(default), which means using standard line-unit parsers only.
+  - An array (ordered) telling the names of enabled parsers.
 
-h3 adding macros
+TODO sandbox options
 
-macro names are limited to names like ruby methods.
+h3 Customizing macros
 
-TODO
+More macro processors can be added by
 
-h3 customizing inline parsers
+|ruby
+  class Markascend::Macro
+    def parse_fancy_macro content, is_inline
+      ...
+    end
+  end
 
-Inline parsers can be changed, or reordered
+Macro names are limited to names like ruby methods.
 
-TODO
+|ruby
+  Markascend.compile src, macros: %w[fancy_macro del]
+
+h3 Customizing line-unit parsers
+
+More line-unit parsers can be added by
+
+|ruby
+  class Markascend::LineUnit
+    def parse_at
+      ...
+    end
+  end
+
+The list of inline parsers can be changed, or reordered
+
+|ruby
+  Markascend.compile src, line_units: Markascend::DEFAULT_LINE_UNITS + %w[at]
