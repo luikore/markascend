@@ -58,5 +58,3 @@ You need to install slim (`gem ins slim`) and require it before using the `\slim
 h3 Notes on `\dot`
 
 You need to install [graphviz](graphviz.org) before using the `\dot` macro.
-
-h3 Notes on `\
