@@ -31,12 +31,22 @@ MA
   end
 
   def test_code_block
+    code_text = proc do |b|
+      t = Nokogiri::HTML(b.parse.strip).xpath('//code/pre').text
+      CGI.unescape_html(t).strip
+    end
+
     b = Parser.new @env, <<-MA
 |ruby
   puts 'hello world'
 MA
-    t = Nokogiri::HTML(b.parse.strip).xpath('//code').text
-    assert_equal "puts 'hello world'", CGI.unescape_html(t).strip
+    assert_equal "puts 'hello world'", code_text[b]
+
+    b = Parser.new @env, <<-MA
+|
+  puts 'hello world'
+MA
+    assert_equal "puts 'hello world'", code_text[b]
   end
 
   def test_footnote_validation

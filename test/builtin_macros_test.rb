@@ -65,7 +65,9 @@ MA
 
   def test_hi
     parse("\\hi(none)")
-    assert_equal 'none', @env[:hi]
+    assert_equal '', @env[:hi]
+    parse("\\hi(c)\\hi(ruby)")
+    assert_equal 'ruby', @env[:hi]
   end
 
   def parse src

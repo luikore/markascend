@@ -61,7 +61,7 @@ module Markascend
 
     def parse_hi
       # TODO validate syntax name
-      env[:hi] = content
+      env[:hi] = content == 'none' ? '' : content
       ''
     end
 

@@ -85,6 +85,10 @@ module Markascend
 
     define_method :escape_html, &CGI.method(:escape_html)
 
+    def escape_pre s
+      s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
+    end
+
     def escape_attr s
       # http://www.w3.org/TR/html5/syntax.html#attributes-0
       s ? (s.gsub /\"/, '\\"') : ''

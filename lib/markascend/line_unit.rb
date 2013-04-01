@@ -4,9 +4,13 @@ module Markascend
   class LineUnit
     def parse
       # block code
-      if /^\|\ *(?!\d)(?<lang>\w+)\ *$/ =~ line
-        # TODO hilite class
-        return ["<code class=\"code-#{lang}\">#{(Markascend.escape_html block) if block}</code>"]
+      if /^\|\ *(?!\d)(?<lang>\w*)\ *$/ =~ line
+        if lang.empty? and env[:hi]
+          lang = env[:hi]
+        end
+        klass = lang.empty? ? "code" : "code-#{lang}"
+        code = Markascend.escape_pre block if block
+        return ["<code class=\"#{klass}\"><pre>#{code}</pre></code>"]
       end
 
       @out = []
