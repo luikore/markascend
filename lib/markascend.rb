@@ -15,6 +15,11 @@ module Markascend
     latex
     options hi
     d3 dot
+
+    twitter weibo
+    wiki
+    gist
+    video
   ].map{|k| [k, "parse_#{k}"]}
 
   # NOTE on the order:

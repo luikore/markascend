@@ -211,7 +211,7 @@ To generate a twitter or weibo link
   \twitter(#HotS)
   \weibo(@yavaeye)
 
-To generate a wiki link
+To generate a wiki link (though wiki is an organization, not a company...)
 |
   \wiki{ruby(programing_language)}
 
@@ -219,9 +219,11 @@ Embed gist
 |
   \gist(12321)
 
-Embed video (currently should recognize youtube, vimeo and niconico)
+Embed video (currently should recognize youtube, vimeo and niconico links, the size is a problem)
 |
-  \video(youtube.com/abc)
+  \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
+  \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
+  \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
 
 h3#syn-hi-macros Syntax hilite macros and code blocks
 
