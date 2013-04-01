@@ -5,3 +5,20 @@ task :default do
     require f
   end
 end
+
+desc "generate pages"
+task :gen do
+  # layout
+  template = `slimrb doc/layout.slim`
+
+  # html
+  require_relative "lib/markascend"
+  %w[syntax api].each do |doc|
+    File.open "_site/#{doc}.html", 'w' do |f|
+      f.puts template % (Markascend.compile File.read "doc/#{doc}.ma")
+    end
+  end
+
+  # css
+  system 'sass --compass -C doc/style.sass _site/style.css'
+end

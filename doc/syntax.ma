@@ -1,3 +1,6 @@
+\options
+  title: Syntax
+
 h3 Design principles
 
 - A simpler *Markdown* should be better.

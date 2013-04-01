@@ -92,7 +92,8 @@ module Markascend
     end
 
     def hilite s, lang
-      if !lang or lang.empty?
+      # TODO ma lexer
+      if !lang or lang =~ /\A(ma(rkascend)?)?\z/i
         s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
       else
         ::Pygments.highlight s, lexer: lang
