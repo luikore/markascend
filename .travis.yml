@@ -7,5 +7,5 @@ rvm:
   - jruby-head
   - rbx-19mode
 before_script:
-  - sudo apt-get install graphviz
+  - sudo apt-get install graphviz libxml2-dev libxslt-dev
 script: rake

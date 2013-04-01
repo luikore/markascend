@@ -6,6 +6,8 @@ rescue LoadError
 end
 
 require "slim"
+require "nokogiri" # for parsing the result
+require "tempfile"
 
 class MarkascendTest < Test::Unit::TestCase
   include Markascend

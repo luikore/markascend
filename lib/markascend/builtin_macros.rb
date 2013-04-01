@@ -67,7 +67,7 @@ module Markascend
 
     def parse_dot
       err, out, code = nil
-      ::Open3.popen3 'dot', '-Tpng:gd:gd' do |i, o, e, t|
+      ::Open3.popen3 'dot', '-Tpng' do |i, o, e, t|
         i.puts content
         i.close
         err = e.read
