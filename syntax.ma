@@ -159,7 +159,7 @@ For block-styled math
   \options
     tags: [markascend readme]
 
-To change default code syntax highliter (See [#syn-hi-macros](below) for details]:
+To change default code syntax highliter (See [below](#syn-hi-macros) for details]:
 |
   \hi(rb)
   \hi(none)
@@ -187,9 +187,9 @@ User NOTE:
 
 h3 Charting macros
 
-TODO
+You need to install [graphviz](http://graphviz.org/) first
+
 |
-  \d3
   \dot
 
 h3 Popular-company macros

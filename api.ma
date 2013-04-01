@@ -47,3 +47,16 @@ The list of inline parsers can be changed, or reordered
 
 |ruby
   Markascend.compile src, line_units: Markascend::DEFAULT_LINE_UNITS + %w[at]
+
+h3 Notes on `\slim`
+
+You need to install slim (`gem ins slim`) and require it before using the `\slim` macro:
+
+|ruby
+  require 'slim'
+
+h3 Notes on `\dot`
+
+You need to install [graphviz](graphviz.org) before using the `\dot` macro.
+
+h3 Notes on `\
