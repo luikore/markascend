@@ -1,5 +1,5 @@
 module Markascend
-  Macro = Struct.new :env, :content, :inline
+  Macro = ::Struct.new :env, :content, :inline
   class Macro
     def parse name
       if meth = env[:macros][name]

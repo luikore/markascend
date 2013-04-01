@@ -5,6 +5,8 @@ begin
 rescue LoadError
 end
 
+require "slim"
+
 class MarkascendTest < Test::Unit::TestCase
   include Markascend
 end

@@ -1,5 +1,5 @@
 module Markascend
-  LineUnit = Struct.new :env, :line, :block, :linenum
+  LineUnit = ::Struct.new :env, :line, :block, :linenum
   # process a line with (maybe) a followed up indented block
   class LineUnit
     def parse
@@ -10,7 +10,7 @@ module Markascend
       end
 
       @out = []
-      @src = StringScanner.new line
+      @src = ::StringScanner.new line
       parsers = env[:line_units]
       while parsers.any?{|p| send p}
       end
@@ -31,7 +31,7 @@ module Markascend
         $/x
         # TODO assign inline color class
         @out << '<code>'
-        @out << (Markascend.escape_html $3)
+        @out << (::Markascend.escape_html $3)
         @out << '</code>'
         true
       end
@@ -41,7 +41,7 @@ module Markascend
     def parse_math
       if (s = @src.scan /\$(?:\\[\\\$]|[^\$])*\$/)
         @out << '<code class="math">'
-        @out << (Markascend.escape_html s[1...-1])
+        @out << (::Markascend.escape_html s[1...-1])
         @out << '</code>'
         true
       end
@@ -52,7 +52,7 @@ module Markascend
       if (s = @src.scan /(https|http|ftp|mailto)\:\/\/\S+/)
         s.gsub! /"/, '\\"'
         @out << '<a href="#{s}">'
-        @out << (Markascend.escape_html s)
+        @out << (::Markascend.escape_html s)
         @out << '</a>'
         true
       end
@@ -68,7 +68,7 @@ module Markascend
       else
         block = self.block
       end
-      @out << Macro.new(env, block, inline_macro).parse(macro)
+      @out << ::Markascend::Macro.new(env, block, inline_macro).parse(macro)
       true
     end
 
@@ -118,7 +118,7 @@ module Markascend
       else
         if addr = scan_lexical_parens || scan_recursive_braces
           # TODO smarter addr to recognize things like a.b.com
-          addr = Markascend.escape_attr addr
+          addr = ::Markascend.escape_attr addr
           @out << %Q|<a href="#{addr}">#{content}</a>|
           true
         else
@@ -179,12 +179,12 @@ module Markascend
           );
         /x)
       elsif c = @src.scan(/\\\W/)
-        c = Markascend.escape_html c[1]
+        c = ::Markascend.escape_html c[1]
       elsif c = @src.scan(/\n/)
         # TODO make it a symbol, and removable for some circumstances
         c = '<br>'
       elsif c = @src.scan(/./)
-        c = Markascend.escape_html c
+        c = ::Markascend.escape_html c
       else
         return
       end

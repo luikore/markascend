@@ -147,6 +147,12 @@ To build a table from a CSV
     "Ahri",Mage
     "Miss Fortune",DPS
 
+A table from CSV, without header
+|
+  \headless_csv
+    "Ahri",Mage
+    "Miss Fortune",DPS
+
 For block-styled math
 |
   \latex
@@ -187,10 +193,13 @@ User NOTE:
 
 h3 Charting macros
 
-You need to install [graphviz](http://graphviz.org/) first
+You need to install [graphviz](http://graphviz.org/) first.
 
 |
   \dot
+    digraph G{
+      main -> parse;
+    }
 
 h3 Popular-company macros
 

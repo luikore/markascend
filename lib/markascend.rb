@@ -1,5 +1,9 @@
 require "strscan"
 require "cgi"
+require "csv"
+require "yaml"
+require "base64"
+require "open3"
 
 module Markascend
   VERSION = '0.1'
@@ -7,7 +11,7 @@ module Markascend
   DEFAULT_MACROS = Hash.[] %w[
     del underline sub sup
     img html slim
-    csv
+    csv headless_csv
     latex
     options hi
     d3 dot
@@ -29,8 +33,8 @@ module Markascend
   ].map{|k| "parse_#{k}"}
 
   class << Markascend
-    def compile src, opts
-      Baes.new(build_env(opts), src).parse
+    def compile src, opts={}
+      Parser.new(build_env(opts), src).parse
     end
 
     def build_env opts
@@ -61,7 +65,15 @@ module Markascend
         line_units = DEFAULT_LINE_UNITS
       end
 
-      {options: {}, footnotes: {}, macros: macros, line_units: line_units}
+      scope = opts[:scope] || Object.new.send(:binding)
+
+      {
+        options: {},           # for \options macro
+        footnotes: {},         # for [.] and [:] elements
+        scope: scope,          # for template engines
+        macros: macros,        # enabled macros
+        line_units: line_units # enabled inline parsers with order
+      }
     end
 
     attr_accessor :inline_parsers, :macros
@@ -69,7 +81,8 @@ module Markascend
     define_method :escape_html, &CGI.method(:escape_html)
 
     def escape_attr s
-      s.gsub /[\\\"]/, '\\\1'
+      # http://www.w3.org/TR/html5/syntax.html#attributes-0
+      s ? (s.gsub /\"/, '\\"') : ''
     end
   end
 end
