@@ -30,6 +30,15 @@ MA
     assert_equal ul, b.parse.strip
   end
 
+  def test_code_block
+    b = Parser.new @env, <<-MA
+|ruby
+  puts 'hello world'
+MA
+    t = Nokogiri::HTML(b.parse.strip).xpath('//code').text
+    assert_equal "puts 'hello world'", CGI.unescape_html(t).strip
+  end
+
   def test_footnote_validation
 
   end

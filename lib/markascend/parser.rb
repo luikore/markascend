@@ -15,7 +15,7 @@ module Markascend
 
     def parse
       @out = []
-      while parse_rec_block or parse_hx or parse_line
+      while parse_new_line or parse_rec_block or parse_hx or parse_line
       end
       raise "failed to parse at: #{@linenum}" unless @src.eos?
       @out.map! do |(node, content)|
@@ -35,6 +35,13 @@ module Markascend
         end
       end
       @out.join
+    end
+
+    def parse_new_line
+      if @src.scan(/\n/)
+        @out << '<br>'
+        true
+      end
     end
 
     def parse_rec_block

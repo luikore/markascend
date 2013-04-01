@@ -6,7 +6,7 @@ module Markascend
       # block code
       if /^\|\ *(?!\d)(?<lang>\w+)\ *$/ =~ line
         # TODO hilite class
-        return "<code class=\"code-#{lang}\">#{(Markascend.escape_html block) if block}</code>"
+        return ["<code class=\"code-#{lang}\">#{(Markascend.escape_html block) if block}</code>"]
       end
 
       @out = []
