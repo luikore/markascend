@@ -8,9 +8,8 @@ module Markascend
         if lang.empty? and env[:hi]
           lang = env[:hi]
         end
-        klass = lang.empty? ? "code" : "code-#{lang}"
-        code = Markascend.escape_pre block if block
-        return ["<code class=\"#{klass}\"><pre>#{code}</pre></code>"]
+        code = ::Markascend.hilite block, lang
+        return ["<pre><code class=\"hilite\">#{code}</code></pre>"]
       end
 
       @out = []
@@ -33,9 +32,8 @@ module Markascend
           (.*?)
           \2\1
         $/x
-        # TODO assign inline color class
-        @out << '<code>'
-        @out << (::Markascend.escape_html $3)
+        @out << '<code class="hilite">'
+        @out << (::Markascend.hilite $3, env[:hi])
         @out << '</code>'
         true
       end

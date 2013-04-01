@@ -14,9 +14,9 @@ class LineUnitTest < MarkascendTest
   end
 
   def test_code
-    assert_equal '<code>\\\\code</code>', parse('`\\\\code`').join
-    assert_equal '<code>c`ode</code>', parse('``c`ode``').join
-    assert_equal '<code> </code>`', parse('`` ```').join
+    assert_equal '<code class="hilite">\\\\code</code>', parse('`\\\\code`').join
+    assert_equal '<code class="hilite">c`ode</code>', parse('``c`ode``').join
+    assert_equal '<code class="hilite"> </code>`', parse('`` ```').join
   end
 
   def test_math

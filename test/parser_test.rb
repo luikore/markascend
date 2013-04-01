@@ -30,9 +30,10 @@ MA
     assert_equal ul, b.parse.strip
   end
 
+  # XXX implemented as line unit, but tested as parser
   def test_code_block
     code_text = proc do |b|
-      t = Nokogiri::HTML(b.parse.strip).xpath('//code/pre').text
+      t = Nokogiri::HTML(b.parse.strip).xpath('//pre/code').text
       CGI.unescape_html(t).strip
     end
 

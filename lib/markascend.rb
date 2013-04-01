@@ -4,6 +4,7 @@ require "csv"
 require "yaml"
 require "base64"
 require "open3"
+require "pygments"
 
 module Markascend
   VERSION = '0.1'
@@ -85,13 +86,17 @@ module Markascend
 
     define_method :escape_html, &CGI.method(:escape_html)
 
-    def escape_pre s
-      s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
-    end
-
     def escape_attr s
       # http://www.w3.org/TR/html5/syntax.html#attributes-0
       s ? (s.gsub /\"/, '\\"') : ''
+    end
+
+    def hilite s, lang
+      if !lang or lang.empty?
+        s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
+      else
+        ::Pygments.highlight s, lexer: lang
+      end
     end
   end
 end
