@@ -112,9 +112,6 @@ module Markascend
     end
 
     def scan_line_and_block undent=:all
-      if @src.scan(/\ *\t/)
-        raise SyntaxError, "line starting with a tab: #@linenum"
-      end
       if line = @src.scan(/.+?(?:\n|\z)/)
         block = @src.scan(/
           (?:\ *\n)*        # leading empty lines

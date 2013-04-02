@@ -40,6 +40,7 @@ module Markascend
 
   class << Markascend
     def compile src, opts={}
+      src = src.gsub "\t", '  '
       Parser.new(build_env(opts), src).parse
     end
 
