@@ -32,7 +32,7 @@ class LineUnitTest < MarkascendTest
   end
 
   def parse src
-    l = LineUnit.new @env, src, nil, 0
+    l = LineUnit.new @env, src, nil
     l.parse
   end
 end

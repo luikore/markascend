@@ -7,17 +7,24 @@ module Markascend
       '> ' => /\>\ /
     }
 
-    def initialize env, src, start_linenum=0
+    def initialize env, src
       @src = StringScanner.new src
-      @linenum = start_linenum
       @env = env
+
+      # store root scanner in env
+      unless @env[:src]
+        @env[:src] = @src
+      end
     end
 
     def parse
       @out = []
       while parse_new_line or parse_rec_block or parse_hx or parse_line
       end
-      raise "failed to parse at: #{@linenum}" unless @src.eos?
+      unless @src.eos?
+        @env.warn 'reached end of input'
+      end
+
       @out.map! do |(node, content)|
         case node
         when :footnode_id_ref
@@ -79,7 +86,7 @@ module Markascend
       elems.each do |elem|
         @out << elem_begin
         elem.rstrip!
-        @out << Parser.new(@env, elem, @linenum).parse
+        @out << Parser.new(@env, elem).parse
         @out << elem_end
       end
       @out << wrapper_end
@@ -105,7 +112,7 @@ module Markascend
     def parse_line
       line, block = scan_line_and_block
       return unless line
-      LineUnit.new(@env, line, block, @linenum).parse.each do |token|
+      LineUnit.new(@env, line, block).parse.each do |token|
         @out << token
       end
       true
@@ -138,7 +145,6 @@ module Markascend
           end
         end
       end
-      # TODO inc linenum
       [line, block]
     end
   end

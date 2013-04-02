@@ -38,6 +38,16 @@ module Markascend
     char
   ].map{|k| "parse_#{k}"}
 
+  class Env < ::Hash
+    def initialize h
+      merge! h
+    end
+
+    def warn msg
+      self[:warnings][self[:src].pos] = msg
+    end
+  end
+
   class << Markascend
     def compile src, opts={}
       src = src.gsub "\t", '  '
@@ -74,13 +84,12 @@ module Markascend
 
       scope = opts[:scope] || Object.new.send(:binding)
 
-      {
+      Env.new\
         options: {},           # for \options macro
         footnotes: {},         # for [.] and [:] elements
         scope: scope,          # for template engines
         macros: macros,        # enabled macros
         line_units: line_units # enabled inline parsers with order
-      }
     end
 
     attr_accessor :inline_parsers, :macros

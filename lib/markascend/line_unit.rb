@@ -1,5 +1,5 @@
 module Markascend
-  LineUnit = ::Struct.new :env, :line, :block, :linenum
+  LineUnit = ::Struct.new :env, :line, :block
   # process a line with (maybe) a followed up indented block
   class LineUnit
     def parse
