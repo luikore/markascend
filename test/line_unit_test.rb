@@ -5,10 +5,6 @@ class LineUnitTest < MarkascendTest
     @env = Markascend.build_env({})
   end
 
-  def test_validate_default_line_unit_parser_list
-    assert_equal LineUnit.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_LINE_UNITS.sort
-  end
-
   def test_nested_italic_and_bold
     assert_equal 'outside<b><i>i</i>b</b>', parse('outside***i*b**').join
   end

@@ -50,6 +50,14 @@ MA
     assert_equal "puts 'hello world'", code_text[b]
   end
 
+  def test_validate_default_macro_list
+    assert_equal Macro.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_MACROS.values.sort
+  end
+
+  def test_validate_default_line_unit_parser_list
+    assert_equal LineUnit.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_LINE_UNITS.sort
+  end
+
   def test_footnote_validation
 
   end

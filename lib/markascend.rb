@@ -15,7 +15,7 @@ module Markascend
     csv headless_csv
     latex
     options hi
-    d3 dot
+    dot
 
     twitter weibo
     wiki
