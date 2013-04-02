@@ -10,11 +10,7 @@ module Markascend
     def initialize env, src
       @src = StringScanner.new src
       @env = env
-
-      # store root scanner in env
-      unless @env[:src]
-        @env[:src] = @src
-      end
+      @env[:srcs].push @src
     end
 
     def parse
@@ -24,6 +20,7 @@ module Markascend
       unless @src.eos?
         @env.warn 'reached end of input'
       end
+      @env[:srcs].pop
 
       @out.map! do |(node, content)|
         case node

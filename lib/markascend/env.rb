@@ -35,11 +35,13 @@ module Markascend
       e[:scope] = opts[:scope] || Object.new.send(:binding)
       e[:options] = {}   # for \options macro
       e[:footnotes] = {} # for [.] and [:] elements
+      e[:srcs] = []
       e
     end
 
     def warn msg
-      self[:warnings][self[:src].pos] = msg
+      pos = self[:srcs].map(&:pos).inject(0, &:+)
+      self[:warnings][pos] = msg
     end
   end
 end
