@@ -1,10 +1,6 @@
 require_relative "test_helper"
 
 class LineUnitTest < MarkascendTest
-  def setup
-    @env = Markascend.build_env({})
-  end
-
   def test_nested_italic_and_bold
     assert_equal 'outside<b><i>i</i>b</b>', parse('outside***i*b**').join
   end

@@ -1,10 +1,6 @@
 require_relative "test_helper"
 
 class PopularCompanyMacrosTest < MarkascendTest
-  def setup
-    @env = Markascend.build_env({})
-  end
-
   def test_twitter
     assert_equal %Q{<a href="https://twitter.com/dhh">@dhh</a>}, parse("\\twitter(@dhh)")
   end

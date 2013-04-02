@@ -1,10 +1,6 @@
 require_relative "test_helper"
 
 class ParserTest < MarkascendTest
-  def setup
-    @env = Markascend.build_env({})
-  end
-
   def test_hx
     b = Parser.new @env, "h1#cen-tered lovely day!"
     assert_equal "<h1 id=\"cen-tered\">lovely day!</h1>", b.parse

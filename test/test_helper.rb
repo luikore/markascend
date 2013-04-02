@@ -11,4 +11,7 @@ require "tempfile"
 
 class MarkascendTest < Test::Unit::TestCase
   include Markascend
+  def setup
+    @env = Env.build({})
+  end
 end
