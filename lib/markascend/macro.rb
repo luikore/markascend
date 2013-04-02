@@ -1,12 +1,12 @@
 module Markascend
+  # inline contains the src for fallback
   Macro = ::Struct.new :env, :content, :inline
   class Macro
     def parse name
       if meth = env[:macros][name]
-        send meth
-      else
-        "\\#{name}"
+        res = send meth
       end
+      res or (inline ? inline : "\\#{name}")
     end
   end
 end

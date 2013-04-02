@@ -11,7 +11,8 @@ module Markascend
     def parse_img
       s = ::StringScanner.new content
       unless src = s.scan(/(\\\ |\S)+/)
-        raise SyntaxError, "require src for \\img"
+        env.warn "require src for \\img"
+        return
       end
       alt = Macro.scan_attr s, 'alt'
       s.skip /\s+/
@@ -20,7 +21,10 @@ module Markascend
       if alt2 = Macro.scan_attr(s, 'alt')
         alt = alt2
       end
-      raise SyntaxError, "parse error for content of \\img" unless s.eos?
+      unless s.eos?
+        env.warn "parse error for content of \\img"
+        return
+      end
 
       alt = ::Markascend.escape_attr alt
       # TODO base64
@@ -76,7 +80,10 @@ module Markascend
         e.close
         o.close
       end
-      raise SyntaxError, err if code != 0
+      if code != 0
+        env.warn err
+        return
+      end
 
       data = ::Base64.strict_encode64 out
       %Q|<img src="data:image/png;base64,#{data}" alt="#{Markascend.escape_attr content}"/>|
