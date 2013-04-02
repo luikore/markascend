@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="chrome=1" http-equiv="X-UA-Compatible" /><title>Markascend</title><link href="style.css" rel="stylesheet" /><script src="scale.fix.js"></script><meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport" /><!--[if lt IE 9]>
 <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]--></head><body><header><h1></h1></header><section><h3>Design principles<br></h3><br><ul><li>A simpler <i>Markdown</i> should be better.</li><li>Since a markup language usually need to process several different syntaces in one article, language composition becomes important in syntax design.</li><li>TeX macro syntax is nearly perfect for extending the language, but not very visual intuitive when there are too much backslashes and bracers.</li><li>Layout-based grammar (indentation sensitive) shows a cleaner way for language composition and cleaning up macros.</li></ul><br><br><br><h3>Inline elements<br></h3><i>italic</i><br><pre><code class="hilite">*italic*
+<![endif]--></head><body><header><h1></h1></header><section><br><h2>Design principles<br></h2><br><ul><li>A simpler <i>Markdown</i> should be better.</li><li>Since a markup language usually need to process several different syntaces in one article, language composition becomes important in syntax design.</li><li>TeX macro syntax is nearly perfect for extending the language, but not very visual intuitive when there are too much backslashes and bracers.</li><li>Layout-based grammar (indentation sensitive) shows a cleaner way for language composition and cleaning up macros.</li></ul><br><br><br><h2>Inline elements<br></h2><i>italic</i><br><pre><code class="hilite">*italic*
 
 </code></pre><b>bold</b><br><pre><code class="hilite">**bold**
 
@@ -25,23 +25,23 @@ link to anchor: [a](#anchor)
 </code></pre>Using already defined footnote (&quot;one more dot to use&quot;):<br><pre><code class="hilite">[:1]
 [:link by acronym]
 
-</code></pre>Except math and code, inline elements can be nested.<br><br>By default, text starting with <code class="hilite">http://</code>, <code class="hilite">https://</code> or <code class="hilite">mailto://</code> will be auto-linked, you can change supported protocols or disable all with compile options.<br><br>NOTE: Not very different from markdown here, just less, math and footnotes added. Images are too complex for a simple syntax, it is made into a macro.<br><br><h3>Headers<br></h3><pre><code class="hilite">h1 title
+</code></pre>Except math and code, inline elements can be nested.<br><br>By default, text starting with <code class="hilite">http://</code>, <code class="hilite">https://</code> or <code class="hilite">mailto://</code> will be auto-linked, you can change supported protocols or disable all with compile options.<br><br>NOTE: Not very different from markdown here, just less, math and footnotes added. Images are too complex for a simple syntax, it is made into a macro.<br><br><h2>Headers<br></h2><pre><code class="hilite">h1 title
 h2#anchor-name title
 
-</code></pre>NOTE: Anchors are disabled in sandbox mode.<br><h3>Lists<br></h3><br><code class="hilite">-</code> is the bullet for unordered list<br><pre><code class="hilite">- an entry
+</code></pre>NOTE: Anchors are disabled in sandbox mode.<br><h2>Lists<br></h2><br><code class="hilite">-</code> is the bullet for unordered list<br><pre><code class="hilite">- an entry
 - another entry
 
 </code></pre><code class="hilite">+</code> is the bullet for ordered list<br><pre><code class="hilite">+ entry 1
 + entry 2
 
-</code></pre><h3>Quote<br></h3><br>Just one <code class="hilite">&gt;</code> is enough for a quote containing many lines (NOTE: use the similar rule as code block and allow quoter name?)<br><pre><code class="hilite">&gt; You
+</code></pre><h2>Quote<br></h2><br>Just one <code class="hilite">&gt;</code> is enough for a quote containing many lines (NOTE: use the similar rule as code block and allow quoter name?)<br><pre><code class="hilite">&gt; You
   can
   input
   new line
   on twitter
   now
 
-</code></pre><h3>Escape characters<br></h3><pre><code class="hilite">\h3
+</code></pre><h2>Escape characters<br></h2><pre><code class="hilite">\h3
 \\
 \$
 \*
@@ -55,7 +55,7 @@ h2#anchor-name title
 &amp;#2382;
 &amp;#x003F;
 
-</code></pre><h3>Built-in macros<br></h3><br>The following macros explains themselves:<br><pre><code class="hilite">\del{deleted}
+</code></pre><h2>Built-in macros<br></h2><br>The following macros explains themselves:<br><pre><code class="hilite">\del{deleted}
 \underline{underline}
 \sub{subscript}
 \sup{supscript}
@@ -98,12 +98,12 @@ h2#anchor-name title
 </code></pre>To change default code syntax highliter (See <a href="#syn-hi-macros">below</a> for details]:<br><pre><code class="hilite">\hi(rb)
 \hi(none)
 
-</code></pre><h3>Notes on macros<br></h3><br>Macro name is case sensitive, starts with a word-character but not digit, and contains no symbols or punctuations. The rule expressed in (Onigmo) regexp is <code class="hilite">(?!\d)\w+</code>. For example, <code class="hilite">你2</code> is valid name, but <code class="hilite">2你</code> is invalid.<br><br>Macros can be of inline form (<code class="hilite">\macro{content}</code>) or block form (<code class="hilite">\macro</code> and the indented block in following lines is the content of the macro).<br><br>Inline macros can use some different delimiters for convinience, allowed ones are: <code class="hilite">\macro(content)</code> and <code class="hilite">\macro{content}</code>.<br><br>In the form <code class="hilite">\macro(content)</code>, the content is parsed by lexical rule. The parser handles and only handles 2 escape chars: <code class="hilite">\\</code> and <code class="hilite">\)</code>, very much like single quoted string in Ruby.<br>Example: <code class="hilite">\macro(\ and \\ are both single-backslash. nest: (\))</code><br><br>In the form <code class="hilite">\macro{content}</code>, you don&#39;t escape chars in the content, and can put in recursively nested braces. When you need to put an unmatched <code class="hilite">{</code> or <code class="hilite">}</code> in the content, use the previous form.<br>Example: <code class="hilite">\macro{\\ is two backslashes. nest: {}}</code><br><br>Design NOTE: There are actual very few symbols left for us... for example <code class="hilite">[]</code>, <code class="hilite">$$</code>, <code class="hilite">|</code> may confuse with link or math or code elements. Symbols like <code class="hilite">"</code>, <code class="hilite">'</code>, <code class="hilite">()</code>, <code class="hilite">&lt;&gt;</code> are not good either, because they are common when composing an article.<br><br>User NOTE:<br><ul><li>The parsing rules for <code class="hilite">(content)</code> and <code class="hilite">{content}</code> are the same as in links.</li><li>Only 1 block-style macro name is allowed inside a line.</li><li>The basic parsing unit is a line and a block, every parsing starts with this unit --- so don&#39;t hand-add space indentations to paragraphs, let css do it.</li></ul><br><h3>Charting macros<br></h3><br>You need to install <a href="http://graphviz.org/">graphviz</a> first.<br><br><pre><code class="hilite">\dot
+</code></pre><h2>Notes on macros<br></h2><br>Macro name is case sensitive, starts with a word-character but not digit, and contains no symbols or punctuations. The rule expressed in (Onigmo) regexp is <code class="hilite">(?!\d)\w+</code>. For example, <code class="hilite">你2</code> is valid name, but <code class="hilite">2你</code> is invalid.<br><br>Macros can be of inline form (<code class="hilite">\macro{content}</code>) or block form (<code class="hilite">\macro</code> and the indented block in following lines is the content of the macro).<br><br>Inline macros can use some different delimiters for convinience, allowed ones are: <code class="hilite">\macro(content)</code> and <code class="hilite">\macro{content}</code>.<br><br>In the form <code class="hilite">\macro(content)</code>, the content is parsed by lexical rule. The parser handles and only handles 2 escape chars: <code class="hilite">\\</code> and <code class="hilite">\)</code>, very much like single quoted string in Ruby.<br>Example: <code class="hilite">\macro(\ and \\ are both single-backslash. nest: (\))</code><br><br>In the form <code class="hilite">\macro{content}</code>, you don&#39;t escape chars in the content, and can put in recursively nested braces. When you need to put an unmatched <code class="hilite">{</code> or <code class="hilite">}</code> in the content, use the previous form.<br>Example: <code class="hilite">\macro{\\ is two backslashes. nest: {}}</code><br><br>Design NOTE: There are actual very few symbols left for us... for example <code class="hilite">[]</code>, <code class="hilite">$$</code>, <code class="hilite">|</code> may confuse with link or math or code elements. Symbols like <code class="hilite">"</code>, <code class="hilite">'</code>, <code class="hilite">()</code>, <code class="hilite">&lt;&gt;</code> are not good either, because they are common when composing an article.<br><br>User NOTE:<br><ul><li>The parsing rules for <code class="hilite">(content)</code> and <code class="hilite">{content}</code> are the same as in links.</li><li>Only 1 block-style macro name is allowed inside a line.</li><li>The basic parsing unit is a line and a block, every parsing starts with this unit --- so don&#39;t hand-add space indentations to paragraphs, let css do it.</li></ul><br><h2>Charting macros<br></h2><br>You need to install <a href="http://graphviz.org/">graphviz</a> first.<br><br><pre><code class="hilite">\dot
   digraph G{
     main -&gt; parse;
   }
 
-</code></pre><h3>Popular-company macros<br></h3><br>This is the transient part but provides some convienience. The list will change if some of them dies before <i>Markascend</i>.<br><br>To generate a twitter or weibo link<br><pre><code class="hilite">\twitter(@night_song)
+</code></pre><h2>Popular-company macros<br></h2><br>This is the transient part but provides some convienience. The list will change if some of them dies before <i>Markascend</i>.<br><br>To generate a twitter or weibo link<br><pre><code class="hilite">\twitter(@night_song)
 \twitter(#HotS)
 \weibo(@yavaeye)
 
@@ -115,7 +115,7 @@ h2#anchor-name title
 \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
 \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
 
-</code></pre><h3 id="syn-hi-macros">Syntax hilite macros and code blocks<br></h3><br>Inline code can also have syntax hiliter<br><br><pre><code class="hilite">\hi(rb)`str.size` in ruby is equivalent to \hi(objc)`str.length` in objc
+</code></pre><h2 id="syn-hi-macros">Syntax hilite macros and code blocks<br></h2><br>Inline code can also have syntax hiliter<br><br><pre><code class="hilite">\hi(rb)`str.size` in ruby is equivalent to \hi(objc)`str.length` in objc
 |
   this part is also hilited in objc
 \hi(none)`\hi(none)` removes hilite state in document
@@ -125,7 +125,7 @@ h2#anchor-name title
 </code></pre>To specify syntax in block form (this won&#39;t change default syntax):<br><pre><code class="hilite">|rb
   puts 'hello world'
 
-</code></pre><h3>Combining macro blocks, lists and quotes<br></h3><br>Lists and quotes are parsed as recursive block elements.<br>If the inside contains macros, need to indent more for the content of the macro:<br><pre><code class="hilite">&gt; Though the \music macro..
+</code></pre><h2>Combining macro blocks, lists and quotes<br></h2><br>Lists and quotes are parsed as recursive block elements.<br>If the inside contains macros, need to indent more for the content of the macro:<br><pre><code class="hilite">&gt; Though the \music macro..
     1232. 1232. 1232.
   is not defined.
 
