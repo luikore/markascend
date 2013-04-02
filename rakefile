@@ -154,13 +154,14 @@ end
 desc "generate pages"
 task :site do
   # layout
-  template = `slimrb doc/layout.slim`
+  require "slim"
+  template = Slim::Template.new "doc/layout.slim"
 
   # html
   require_relative "lib/markascend"
   %w[syntax api].each do |doc|
     File.open "_site/#{doc}.html", 'w' do |f|
-      f.puts template % (Markascend.compile File.read "doc/#{doc}.ma")
+      f.puts template.render{ Markascend.compile File.read "doc/#{doc}.ma" }
     end
   end
 
