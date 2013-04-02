@@ -1,7 +1,7 @@
 \options
   title: Syntax
 
-h3 Design principles
+h2 Design principles
 
 - A simpler *Markdown* should be better.
 - Since a markup language usually need to process several different syntaces in one article, language composition becomes important in syntax design.
@@ -10,7 +10,7 @@ h3 Design principles
 
 \hi(ma)
 
-h3 Inline elements
+h2 Inline elements
 *italic*
 |
   *italic*
@@ -58,13 +58,13 @@ By default, text starting with `http://`, `https://` or `mailto://` will be auto
 
 NOTE: Not very different from markdown here, just less, math and footnotes added. Images are too complex for a simple syntax, it is made into a macro.
 
-h3 Headers
+h2 Headers
 |
   h1 title
   h2#anchor-name title
 
 NOTE: Anchors are disabled in sandbox mode.
-h3 Lists
+h2 Lists
 
 `-` is the bullet for unordered list
 |
@@ -76,7 +76,7 @@ h3 Lists
   + entry 1
   + entry 2
 
-h3 Quote
+h2 Quote
 
 Just one `>` is enough for a quote containing many lines (NOTE: use the similar rule as code block and allow quoter name?)
 |
@@ -87,7 +87,7 @@ Just one `>` is enough for a quote containing many lines (NOTE: use the similar 
     on twitter
     now
 
-h3 Escape characters
+h2 Escape characters
 |
   \h3
   \\
@@ -105,7 +105,7 @@ All HTML4 entities are supported
   &#2382;
   &#x003F;
 
-h3 Built-in macros
+h2 Built-in macros
 
 The following macros explains themselves:
 |
@@ -173,7 +173,7 @@ To change default code syntax highliter (See [below](#syn-hi-macros) for details
   \hi(rb)
   \hi(none)
 
-h3 Notes on macros
+h2 Notes on macros
 
 Macro name is case sensitive, starts with a word-character but not digit, and contains no symbols or punctuations. The rule expressed in (Onigmo) regexp is `(?!\d)\w+`. For example, `你2` is valid name, but `2你` is invalid.
 
@@ -194,7 +194,7 @@ User NOTE:
 - Only 1 block-style macro name is allowed inside a line.
 - The basic parsing unit is a line and a block, every parsing starts with this unit --- so don't hand-add space indentations to paragraphs, let css do it.
 
-h3 Charting macros
+h2 Charting macros
 
 You need to install [graphviz](http://graphviz.org/) first.
 
@@ -204,7 +204,7 @@ You need to install [graphviz](http://graphviz.org/) first.
       main -> parse;
     }
 
-h3 Popular-company macros
+h2 Popular-company macros
 
 This is the transient part but provides some convienience. The list will change if some of them dies before *Markascend*.
 
@@ -228,7 +228,7 @@ Embed video (currently should recognize youtube, vimeo and niconico links, the s
   \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
   \video(500x400 http://www.youtube.com/watch?v=TGPvtlnwH6E)
 
-h3#syn-hi-macros Syntax hilite macros and code blocks
+h2#syn-hi-macros Syntax hilite macros and code blocks
 
 Inline code can also have syntax hiliter
 
@@ -245,7 +245,7 @@ To specify syntax in block form (this won't change default syntax):
   |rb
     puts 'hello world'
 
-h3 Combining macro blocks, lists and quotes
+h2 Combining macro blocks, lists and quotes
 
 Lists and quotes are parsed as recursive block elements.
 If the inside contains macros, need to indent more for the content of the macro:
