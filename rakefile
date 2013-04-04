@@ -127,8 +127,8 @@ def activate_url url
       osascript <<-APPLESCRIPT
       tell application "#{browser}"
         activate
-        make new tab at the end of tabs of window #{window}
-        set the URL of active tab of window #{window} to "#{url}"
+        make new tab at the end of tabs of window 1
+        set the URL of active tab of window 1 to "#{url}"
       end tell
       APPLESCRIPT
     when /Safari/
@@ -151,7 +151,7 @@ task :default do
   end
 end
 
-desc "generate pages"
+desc "generate gh-pages"
 task :site do
   # layout
   require "slim"
@@ -160,17 +160,17 @@ task :site do
   # html
   require_relative "lib/markascend"
   %w[syntax api].each do |doc|
-    File.open "_site/#{doc}.html", 'w' do |f|
+    File.open "gh-pages/#{doc}.html", 'w' do |f|
       f.puts template.render{ Markascend.compile File.read "doc/#{doc}.ma" }
     end
   end
 
   # css
-  system 'sass --compass -C doc/style.sass _site/style.css'
+  system 'sass --compass -C doc/style.sass gh-pages/style.css'
 end
 
-desc "preview site in chrome"
+desc "preview gh-pages in default browser"
 task :preview => :site do
-  url = File.expand_path "_site/syntax.html"
+  url = File.expand_path "gh-pages/syntax.html"
   activate_url "file://#{url}"
 end
