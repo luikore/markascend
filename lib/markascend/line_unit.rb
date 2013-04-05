@@ -5,8 +5,8 @@ module Markascend
     def parse
       # block code
       if /^\|\ *(?!\d)(?<lang>\w*)\ *$/ =~ line
-        if lang.empty? and env[:hi]
-          lang = env[:hi]
+        if lang.empty? and env.hi
+          lang = env.hi
         end
         code = ::Markascend.hilite block, lang
         return ["<pre><code class=\"hilite\">#{code}</code></pre>"]
@@ -14,7 +14,7 @@ module Markascend
 
       @out = []
       @src = ::StringScanner.new line
-      parsers = env[:line_units]
+      parsers = env.line_units
       while parsers.any?{|p| send p}
       end
       @out
@@ -33,7 +33,7 @@ module Markascend
           \2\1
         $/x
         @out << '<code class="hilite">'
-        @out << (::Markascend.hilite $3, env[:hi])
+        @out << (::Markascend.hilite $3, env.hi)
         @out << '</code>'
         true
       end
@@ -99,7 +99,7 @@ module Markascend
           return
         end
 
-        footnotes = env[:footnotes]
+        footnotes = env.footnotes
         if content =~ /\A\s*\z/
           content = footnotes.size + 1
         end
@@ -109,7 +109,7 @@ module Markascend
         @out << %Q|<a href="#footnote-#{footnotes.size}">#{content}</a>|
         true
       when ':'
-        footnotes = env[:footnotes]
+        footnotes = env.footnotes
         if content =~ /\A\s*(\d+)\s*\z/
           @out << [:footnote_id_ref, $1.to_i]
         else

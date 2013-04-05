@@ -41,7 +41,7 @@ module Markascend
   class << Markascend
     def compile src, opts={}
       src = src.gsub "\t", '  '
-      Parser.new(Env.build(opts), src).parse
+      Parser.new(Env.new(opts), src).parse
     end
 
     attr_accessor :inline_parsers, :macros

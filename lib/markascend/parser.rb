@@ -10,7 +10,7 @@ module Markascend
     def initialize env, src
       @src = StringScanner.new src
       @env = env
-      @env[:srcs].push @src
+      @env.srcs.push @src
     end
 
     def parse
@@ -20,17 +20,17 @@ module Markascend
       unless @src.eos?
         @env.warn 'reached end of input'
       end
-      @env[:srcs].pop
+      @env.srcs.pop
 
       @out.map! do |(node, content)|
         case node
         when :footnode_id_ref
-          if content < 1 or content > @env[:footnotes].size
+          if content < 1 or content > @env.footnotes.size
             raise "footnote not defined: #{content}"
           end
           %Q|<a href="#footnote-#{content}">#{content}</a>|
         when :footnode_acronym_ref
-          unless index = @env[:footnotes].find_index{|k, _| k == content }
+          unless index = @env.footnotes.find_index{|k, _| k == content }
             raise "footnote note defined: #{content}"
           end
           %Q|<a href="#footnote-#{index + 1}">#{content}</a>|

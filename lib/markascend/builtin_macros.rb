@@ -43,7 +43,7 @@ module Markascend
     end
 
     def parse_slim
-      ::Slim::Template.new(){content}.render env[:scope]
+      ::Slim::Template.new(){content}.render env.scope
     end
 
     def parse_csv
@@ -59,13 +59,13 @@ module Markascend
     end
 
     def parse_options
-      env[:options].merge! ::YAML.load(content)
+      env.options.merge! ::YAML.load(content)
       ''
     end
 
     def parse_hi
       # TODO validate syntax name
-      env[:hi] = content == 'none' ? '' : content
+      env.hi = content == 'none' ? nil : content
       ''
     end
 

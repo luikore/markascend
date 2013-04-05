@@ -56,14 +56,14 @@ MA
 
   def test_options
     parse("\\options(a: [1, 2])")
-    assert_equal({"a" => [1, 2]}, @env[:options])
+    assert_equal({"a" => [1, 2]}, @env.options)
   end
 
   def test_hi
     parse("\\hi(none)")
-    assert_equal '', @env[:hi]
+    assert_equal nil, @env.hi
     parse("\\hi(c)\\hi(ruby)")
-    assert_equal 'ruby', @env[:hi]
+    assert_equal 'ruby', @env.hi
   end
 
   def parse src
