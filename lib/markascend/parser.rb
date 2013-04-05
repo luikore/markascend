@@ -158,6 +158,8 @@ module Markascend
           break unless line
           LineUnit.new(@env, line, block).parse(@out)
         end
+        # consume one more empty line if possible
+        @src.scan /\ *\n/
         # delete back last <br>
         @out.pop if @out.last == :"<br>"
         @out << :"</p>" if @top_level
