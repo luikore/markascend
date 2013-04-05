@@ -8,7 +8,7 @@ class ParserTest < MarkascendTest
 
   def test_blocked_hx
     b = Parser.new @env, "h3 followed by \\nop a block\n  content of block"
-    assert_equal "<h3>followed by \\nop a block<br></h3>", b.parse
+    assert_equal "<h3>followed by \\nop a block</h3>", b.parse
   end
 
   def test_rec_block

@@ -1,7 +1,13 @@
 module Markascend
   class Parser
     REC_START = /\A[\+\-\>]\ /
-    BLOCK_CODE_START = /^\|\ *(?!\d)(\w*)\ *$/
+    NON_PARA_START = /
+      ^[\+\-\>]\                   # rec block
+      |
+      ^\|\ *(?!\d)\w*\ *$          # block code
+      |
+      ^h[1-6](?:\#\w+(?:-\w+)*)?\  # header
+    /x
     REC_BLOCK_STARTS = {
       '+ ' => /\+\ /,
       '- ' => /\-\ /,
@@ -106,11 +112,11 @@ module Markascend
       hx = hx[0...2]
 
       @out << "<#{hx}#{id_attr}>"
-      # todo make it a block
       line, block = scan_line_and_block
       if line
         LineUnit.new(@env, line, block).parse(@out)
       end
+      @out.pop if @out.last == :"<br>"
       @out << "</#{hx}>"
       true
     end
@@ -129,6 +135,7 @@ module Markascend
           )*
         /x)
         block.gsub!(/^  /, '')
+        block.rstrip!
         code = ::Markascend.hilite block, lang
         @out << "<pre><code class=\"hilite\">"
         @out << code
@@ -146,7 +153,7 @@ module Markascend
         LineUnit.new(@env, line, block).parse(@out)
 
         # same indent and not matching rec/code blocks
-        while (@src.match?(/\ */); @src.matched_size) == indent and !@src.match?(REC_START) and !@src.match?(BLOCK_CODE_START)
+        while (@src.match?(/\ */); @src.matched_size) == indent and !@src.match?(NON_PARA_START)
           line, block = scan_line_and_block
           break unless line
           LineUnit.new(@env, line, block).parse(@out)
