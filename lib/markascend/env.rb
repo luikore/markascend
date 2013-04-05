@@ -34,15 +34,21 @@ module Markascend
       @scope = opts[:scope] || Object.new.send(:binding)
       @options = {}   # for \options macro
       @footnotes = {} # for [.] and [:] elements
-      @srcs = []
+      @srcs = []      # recursive parser stack, everyone has the contiguous right one scanned
       @warnings = {}
       @options = {}
       @hi = nil
     end
 
     def warn msg
-      pos = @srcs.map(&:pos).inject(0, &:+)
-      @warnings[pos] = msg
+      if @srcs.size
+        current_src = @srcs.last
+        line = @srcs.first.string.count("\n") - current_src.string[(current_src.pos)..-1].count("\n")
+        @warnings[line] = msg
+      else
+        # warnings without source is set to line 0
+        @warnings[0] = msg
+      end
     end
   end
 end

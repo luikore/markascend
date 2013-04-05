@@ -26,6 +26,18 @@ MA
     assert_equal ul, b.parse.strip
   end
 
+  def test_warning_line
+    # should generate warning for missing macro contents
+    b = Parser.new @env, <<-MA
+- ul1
+  + ol1
+    - ul2
+      + ol2 \\img()
+MA
+    b.parse
+    assert b.warnings[4]
+  end
+
   # XXX implemented as line unit, but tested as parser
   def test_code_block
     code_text = proc do |b|

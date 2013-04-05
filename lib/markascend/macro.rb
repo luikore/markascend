@@ -3,6 +3,7 @@ module Markascend
   Macro = ::Struct.new :env, :content, :inline
   class Macro
     def parse name
+      self.content ||= ''
       if meth = env.macros[name]
         res = send meth
       end

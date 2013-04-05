@@ -41,6 +41,10 @@ module Markascend
       @out.join
     end
 
+    def warnings
+      @env.warnings
+    end
+
     def parse_new_line
       if @src.scan(/\n/)
         @out << '<br>'
