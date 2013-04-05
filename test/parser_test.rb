@@ -22,7 +22,7 @@ class ParserTest < MarkascendTest
 MA
     ol = "<ol><li>ol1</li>" + "<li>ol2</li></ol>"
     quote = "<quote>quote1<br>quote2</quote>"
-    ul = "<ul><li>ul1</li>" + "<li>ul2<br>#{ol}</li>" + "<li>#{quote}</li></ul>"
+    ul = "<ul><li>ul1</li>" + "<li>ul2#{ol}</li>" + "<li>#{quote}</li></ul>"
     assert_equal ul, b.parse.strip
   end
 
@@ -38,7 +38,6 @@ MA
     assert b.warnings[4]
   end
 
-  # XXX implemented as line unit, but tested as parser
   def test_code_block
     code_text = proc do |b|
       t = Nokogiri::HTML(b.parse.strip).xpath('//pre/code').text
@@ -49,7 +48,9 @@ MA
 |ruby
   puts 'hello world'
 MA
+$d=1
     assert_equal "puts 'hello world'", code_text[b]
+    $d=nil
 
     b = Parser.new @env, <<-MA
 |

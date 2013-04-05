@@ -1,6 +1,7 @@
 module Markascend
   class Parser
     REC_START = /\A[\+\-\>]\ /
+    BLOCK_CODE_START = /^\|\ *(?!\d)(\w*)\ *$/
     REC_BLOCK_STARTS = {
       '+ ' => /\+\ /,
       '- ' => /\-\ /,
@@ -10,12 +11,13 @@ module Markascend
     def initialize env, src
       @src = StringScanner.new src
       @env = env
+      @top_level = @env.srcs.empty?
       @env.srcs.push @src
     end
 
     def parse
       @out = []
-      while parse_new_line or parse_rec_block or parse_hx or parse_line
+      while parse_new_line or parse_rec_block or parse_hx or parse_block_code or parse_paragraph
       end
       unless @src.eos?
         @env.warn 'reached end of input'
@@ -46,7 +48,7 @@ module Markascend
     end
 
     def parse_new_line
-      if @src.scan(/\n/)
+      if @src.scan(/\ *\n/)
         @out << '<br>'
         true
       end
@@ -105,18 +107,55 @@ module Markascend
 
       @out << "<#{hx}#{id_attr}>"
       # todo make it a block
-      parse_line
+      line, block = scan_line_and_block
+      if line
+        LineUnit.new(@env, line, block).parse(@out)
+      end
       @out << "</#{hx}>"
       true
     end
 
-    def parse_line
-      line, block = scan_line_and_block
-      return unless line
-      LineUnit.new(@env, line, block).parse.each do |token|
-        @out << token
+    def parse_block_code
+      if lang = @src.scan(/\|\ *(?!\d)\w*\ *\n/)
+        lang = lang[1..-1].strip
+        if lang.empty? and @env.hi
+          lang = @env.hi
+        end
+        block = @src.scan(/
+          (
+            \ *\n      # empty line
+          |
+            \ {2,}.*\n # line indented equal to 2 or more than 2
+          )*
+        /x)
+        block.gsub!(/^  /, '')
+        code = ::Markascend.hilite block, lang
+        @out << "<pre><code class=\"hilite\">"
+        @out << code
+        @out << "</code></pre>"
+        true
       end
-      true
+    end
+
+    def parse_paragraph
+      @src.match?(/\ */)
+      indent = @src.matched_size
+      line, block = scan_line_and_block
+      if line
+        @out << :"<p>" if @top_level
+        LineUnit.new(@env, line, block).parse(@out)
+
+        # same indent and not matching rec/code blocks
+        while (@src.match?(/\ */); @src.matched_size) == indent and !@src.match?(REC_START) and !@src.match?(BLOCK_CODE_START)
+          line, block = scan_line_and_block
+          break unless line
+          LineUnit.new(@env, line, block).parse(@out)
+        end
+        # delete back last <br>
+        @out.pop if @out.last == :"<br>"
+        @out << :"</p>" if @top_level
+        true
+      end
     end
 
     def scan_line_and_block undent=:all

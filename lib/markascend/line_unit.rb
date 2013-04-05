@@ -2,22 +2,20 @@ module Markascend
   LineUnit = ::Struct.new :env, :line, :block
   # process a line with (maybe) a followed up indented block
   class LineUnit
-    def parse
-      # block code
-      if /^\|\ *(?!\d)(?<lang>\w*)\ *$/ =~ line
-        if lang.empty? and env.hi
-          lang = env.hi
-        end
-        code = ::Markascend.hilite block, lang
-        return ["<pre><code class=\"hilite\">#{code}</code></pre>"]
-      end
-
+    def parse out=nil
       @out = []
       @src = ::StringScanner.new line
       parsers = env.line_units
       while parsers.any?{|p| send p}
       end
-      @out
+
+      if out
+        @out.each do |token|
+          out << token
+        end
+      else
+        @out.join
+      end
     end
 
     # the same as markdown
@@ -183,8 +181,7 @@ module Markascend
       elsif c = @src.scan(/\\\W/)
         c = ::Markascend.escape_html c[1]
       elsif c = @src.scan(/\n/)
-        # TODO make it a symbol, and removable for some circumstances
-        c = '<br>'
+        c = :'<br>'
       elsif c = @src.scan(/./)
         c = ::Markascend.escape_html c
       else

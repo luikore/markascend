@@ -29,6 +29,6 @@ class LineUnitTest < MarkascendTest
 
   def parse src
     l = LineUnit.new @env, src, nil
-    l.parse
+    l.parse []
   end
 end

@@ -37,6 +37,6 @@ class PopularCompanyMacrosTest < MarkascendTest
 
   def parse src
     l = LineUnit.new @env, src, nil
-    l.parse.join
+    l.parse
   end
 end
