@@ -210,7 +210,6 @@ code {
 
 pre {
   font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color: #333333;
   font-size: 12px;
   overflow-x: auto;
   padding: 20px;
@@ -306,81 +305,81 @@ footer {
 @media print {
   header p.view a small:before {
     content: "at http://github.com/"; } }
-.hilite {
+.highlite {
   background: #3a3c42;
   color: #f8f8f2; }
-  .hilite .hll {
+  .highlite .hll {
     background-color: #49483e; }
-  .hilite .c {
+  .highlite .c {
     color: #75715e; }
-  .hilite .err {
+  .highlite .err {
     color: #960050;
     background-color: #1e0010; }
-  .hilite .k {
+  .highlite .k {
     color: #66d9ef; }
-  .hilite .l {
+  .highlite .l {
     color: #ae81ff; }
-  .hilite .n {
+  .highlite .n {
     color: #f8f8f2; }
-  .hilite .o {
+  .highlite .o {
     color: #f92672; }
-  .hilite .p {
+  .highlite .p {
     color: #f8f8f2; }
-  .hilite .cm, .hilite .cp, .hilite .c1, .hilite .cs {
+  .highlite .cm, .highlite .cp, .highlite .c1, .highlite .cs {
     color: #75715e; }
-  .hilite .ge {
+  .highlite .ge {
     font-style: italic; }
-  .hilite .gs {
+  .highlite .gs {
     font-weight: bold; }
-  .hilite .kc, .hilite .kd {
+  .highlite .kc, .highlite .kd {
     color: #66d9ef; }
-  .hilite .kn {
+  .highlite .kn {
     color: #f92672; }
-  .hilite .kp, .hilite .kr, .hilite .kt {
+  .highlite .kp, .highlite .kr, .highlite .kt {
     color: #66d9ef; }
-  .hilite .ld {
+  .highlite .ld {
     color: #e6db74; }
-  .hilite .m {
+  .highlite .m {
     color: #ae81ff; }
-  .hilite .s {
+  .highlite .s {
     color: #e6db74; }
-  .hilite .na {
+  .highlite .na {
     color: #a6e22e; }
-  .hilite .nb {
+  .highlite .nb {
     color: #f8f8f2; }
-  .hilite .nc {
+  .highlite .nc {
     color: #a6e22e; }
-  .hilite .no {
+  .highlite .no {
     color: #66d9ef; }
-  .hilite .nd {
+  .highlite .nd {
     color: #a6e22e; }
-  .hilite .ni {
+  .highlite .ni {
     color: #f8f8f2; }
-  .hilite .ne, .hilite .nf {
+  .highlite .ne, .highlite .nf {
     color: #a6e22e; }
-  .hilite .nl, .hilite .nn {
+  .highlite .nl, .highlite .nn {
     color: #f8f8f2; }
-  .hilite .nx {
+  .highlite .nx {
     color: #a6e22e; }
-  .hilite .py {
+  .highlite .py {
     color: #f8f8f2; }
-  .hilite .nt {
+  .highlite .nt {
     color: #f92672; }
-  .hilite .nv {
+  .highlite .nv {
     color: #f8f8f2; }
-  .hilite .ow {
+  .highlite .ow {
     color: #f92672; }
-  .hilite .w {
+  .highlite .w {
     color: #f8f8f2; }
-  .hilite .mf, .hilite .mh, .hilite .mi, .hilite .mo {
+  .highlite .mf, .highlite .mh, .highlite .mi, .highlite .mo {
     color: #ae81ff; }
-  .hilite .sb, .hilite .sc, .hilite .sd, .hilite .s2 {
+  .highlite .sb, .highlite .sc, .highlite .sd, .highlite .s2 {
     color: #e6db74; }
-  .hilite .se {
+  .highlite .se {
     color: #ae81ff; }
-  .hilite .sh, .hilite .si, .hilite .sx, .hilite .sr, .hilite .s1, .hilite .ss {
+  .highlite .sh, .highlite .si, .highlite .sx, .highlite .sr, .highlite .s1, .highlite .ss {
     color: #e6db74; }
-  .hilite .bp, .hilite .vc, .hilite .vg, .hilite .vi {
+  .highlite .bp, .highlite .vc, .highlite .vg, .highlite .vi {
     color: #f8f8f2; }
-  .hilite .il {
+  .highlite .il {
     color: #ae81ff; }
