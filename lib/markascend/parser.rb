@@ -138,10 +138,7 @@ module Markascend
         /x)
         block.gsub!(/^  /, '')
         block.rstrip!
-        code = ::Markascend.hilite block, lang
-        @out << "<pre><code class=\"hilite\">"
-        @out << code
-        @out << "</code></pre>"
+        @out << (::Markascend.hilite block, lang)
         true
       end
     end

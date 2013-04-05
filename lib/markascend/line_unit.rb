@@ -30,9 +30,7 @@ module Markascend
           (.*?)
           \2\1
         $/x
-        @out << '<code class="hilite">'
-        @out << (::Markascend.hilite $3, env.hi)
-        @out << '</code>'
+        @out << (::Markascend.hilite $3, env.hi, true)
         true
       end
     end

@@ -50,15 +50,25 @@ module Markascend
 
     def escape_attr s
       # http://www.w3.org/TR/html5/syntax.html#attributes-0
-      s ? (s.gsub /\"/, '\\"') : ''
+      s ? (s.gsub /"/, '&quot;') : ''
     end
 
-    def hilite s, lang
-      # TODO ma lexer
-      if !lang or lang =~ /\A(ma(rkascend)?)?\z/i
-        s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
+    def escape_pre s
+      s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
+    end
+
+    def hilite s, lang, inline=false
+      if !lang or lang =~ /\A(ma(rkascend)?)?\z/i or !(::Pygments::Lexer.find lang)
+        # TODO ma lexer
+        s = inline ? (escape_html s) : (escape_pre s)
       else
-        ::Pygments.highlight s, lexer: lang
+        s = Pygments.highlight s, lexer: lang, options: {nowrap: true}
+      end
+
+      if inline
+        %Q|<code class="highlight">#{s}</code>|
+      else
+        %Q|<pre><code class="highlight">#{s}</code></pre>|
       end
     end
   end

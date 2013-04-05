@@ -48,9 +48,7 @@ MA
 |ruby
   puts 'hello world'
 MA
-$d=1
     assert_equal "puts 'hello world'", code_text[b]
-    $d=nil
 
     b = Parser.new @env, <<-MA
 |
