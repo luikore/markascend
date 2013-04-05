@@ -204,7 +204,9 @@ code {
   font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
   color: #333333;
   font-size: 12px;
-  overflow-x: auto; }
+  overflow-x: auto;
+  padding-left: 3px;
+  padding-right: 3px; }
 
 pre {
   font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
@@ -216,7 +218,9 @@ pre {
   color: #f8f8f2;
   margin: 0 -20px 20px; }
   pre code {
-    color: #f8f8f2; }
+    color: #f8f8f2;
+    padding-left: 0;
+    padding-right: 0; }
 
 li pre {
   margin-left: -60px;
