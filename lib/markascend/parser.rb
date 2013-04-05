@@ -116,6 +116,8 @@ module Markascend
       if line
         LineUnit.new(@env, line, block).parse(@out)
       end
+      # consume one more empty line if possible
+      @src.scan /\ *\n/ if (!block or block.empty?)
       @out.pop if @out.last == :"<br>"
       @out << "</#{hx}>"
       true
