@@ -1,26 +1,22 @@
-h3 Compile
+\hi(ruby)
+h2 Compile
 
-|ruby
+|
   Markascend.compile src, options
 
-h3 Options
+h2 Options
 
 - `:autolink`, default value is `%w[http https ftp mailto]`
 - `:inline_img`, compile image into inlined base64, default = `false`
-- `:macros`, the value can be
-  - `nil`(default), which means using standard macros only.
-  - An array (unordered) telling the names of enabled macros.
-- `:line_units`, the value can be
-  - `nil`(default), which means using standard line-unit parsers only.
-  - An array (ordered) telling the names of enabled parsers.
+- `:macros`, specify the names of enabled macros. Other macros will be treated as plain text. The default value is `Markascend::DEFAULT_MACROS`.
+- `:line_units`, specify the inline parsers to be used (be careful with the order!). The default value is `Markascend::DEFAULT_LINE_UNITS`.
+- `:sandbox`, a hybrid option to tweak the syntax to be generally safe for user inputs. `false` by default. When set to `true`, footnotes are disabled, ids or classes are ignored, and enabled macros and are set to `Markascend::SANDBOX_MACROS`. The sandbox macro list can be overriden by the `:macros` option.
 
-TODO sandbox options
-
-h3 Customizing macros
+h2 Customizing macros
 
 More macro processors can be added by
 
-|ruby
+|
   class Markascend::Macro
     def parse_fancy_macro
       ... compose result string with: env, content, inline
@@ -29,14 +25,14 @@ More macro processors can be added by
 
 Macro names are limited to names like ruby methods.
 
-|ruby
+|
   Markascend.compile src, macros: %w[fancy_macro del]
 
-h3 Customizing line-unit parsers
+h2 Customizing line-unit parsers
 
 More line-unit parsers can be added by
 
-|ruby
+|
   class Markascend::LineUnit
     def parse_at
       ... compose result string with: env, line, block, linenum
@@ -45,16 +41,20 @@ More line-unit parsers can be added by
 
 The list of inline parsers can be changed, or reordered
 
-|ruby
+|
   Markascend.compile src, line_units: Markascend::DEFAULT_LINE_UNITS + %w[at]
 
-h3 Notes on `\slim`
+h2 Notes on `\slim`
 
-You need to install slim (`gem ins slim`) and require it before using the `\slim` macro:
-
-|ruby
+You need to install slim \hi(bash)(`gem ins slim`) and require it before using the \hi(ma)`\slim` macro:
+\hi(ruby)
+|
   require 'slim'
 
-h3 Notes on `\dot`
+It is disabled in sandbox mode.
 
-You need to install [graphviz](graphviz.org) before using the `\dot` macro.
+h2 Notes on `\dot`
+
+You need to install [graphviz](graphviz.org) before using the \hi(ma)`\dot` macro.
+
+It is disabled in sandbox mode.
