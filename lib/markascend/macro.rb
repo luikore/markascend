@@ -7,7 +7,7 @@ module Markascend
       if meth = env.macros[name]
         res = send meth
       end
-      res or (inline ? inline : "\\#{name}")
+      res or (inline ? ::Markascend.escape_html(inline) : "\\#{name}")
     end
   end
 end

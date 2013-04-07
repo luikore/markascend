@@ -57,16 +57,17 @@ module Markascend
     end
 
     def parse_macro
+      start = @src.pos
       return unless macro = @src.scan(/\\(?!\d)\w+/)
       macro = macro[1..-1]
       if block = scan_lexical_parens
-        inline_macro = true
+        inline_content = @src.string[start..(@src.pos)]
       elsif block = scan_recursive_braces
-        inline_macro = true
+        inline_content = @src.string[start..(@src.pos)]
       else
         block = self.block
       end
-      @out << ::Markascend::Macro.new(env, block, inline_macro).parse(macro)
+      @out << ::Markascend::Macro.new(env, block, inline_content).parse(macro)
       true
     end
 

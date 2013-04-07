@@ -57,6 +57,15 @@ MA
     assert_equal "puts 'hello world'", code_text[b]
   end
 
+  def test_inline_macro_fallback_but_block_macro_not
+    invalid = "\\invalid{ <content> }"
+    expected = "<p>#{CGI.escape_html invalid}</p>"
+    assert_equal expected, Parser.new(@env, invalid).parse
+
+    invalid = "\\invalid\n  <content>"
+    assert_equal "<p>\\invalid</p>", Parser.new(@env, invalid).parse
+  end
+
   def test_validate_default_macro_list
     assert_equal Macro.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_MACROS.values.sort
   end
