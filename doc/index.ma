@@ -14,8 +14,8 @@ h2 Cheat Sheet
 
 h2 Document
 
-- [Syntax in Details](syntax)
-- [API in Details](api)
+- [Syntax in Details](syntax.html)
+- [API in Details](api.html)
 - [Editor Support (Textmate/Sublime)](https://github.com/luikore/Markascend.tmbundle)
 
 h2 License

@@ -159,7 +159,7 @@ task :site do
 
   # html
   require_relative "lib/markascend"
-  %w[syntax api].each do |doc|
+  %w[index syntax api].each do |doc|
     File.open "gh-pages/#{doc}.html", 'w' do |f|
       f.puts template.render{ Markascend.compile File.read "doc/#{doc}.ma" }
     end
@@ -171,6 +171,6 @@ end
 
 desc "preview gh-pages in default browser"
 task :preview => :site do
-  url = File.expand_path "gh-pages/syntax.html"
+  url = File.expand_path "gh-pages/index.html"
   activate_url "file://#{url}"
 end
