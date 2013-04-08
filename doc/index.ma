@@ -19,3 +19,5 @@ h2 Document
 - [Editor Support (Textmate/Sublime)](https://github.com/luikore/Markascend.tmbundle)
 
 h2 License
+
+[BSD](https://github.com/luikore/markascend/tree/master/copying)
