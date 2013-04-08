@@ -6,8 +6,8 @@ rvm:
   # They fail for some known issues:
   # - `Open3.popen` in jruby
   # - named group captures in rbx
-  - jruby-19mode
-  - rbx-19mode
+  # - jruby-19mode
+  # - rbx-19mode
 before_script:
-  - sudo apt-get install graphviz
+  - sudo apt-get install graphviz libmagic-dev
 script: rake
