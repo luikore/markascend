@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class BuiltinMacrosTest < MarkascendTest
+class BuiltinMacrosTest < BaseTest
   def test_del_underline_sub_sup
     %w[del underline sub sup].each do |x|
       assert_equal "<#{x}>#{x}</#{x}>", parse("\\#{x}(#{x})")

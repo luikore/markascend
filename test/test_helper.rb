@@ -9,7 +9,7 @@ require "slim"
 require "nokogiri" # for parsing the result
 require "tempfile"
 
-class MarkascendTest < Test::Unit::TestCase
+class BaseTest < Test::Unit::TestCase
   include Markascend
   def setup
     @env = Env.new({})

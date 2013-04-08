@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class PopularCompanyMacrosTest < MarkascendTest
+class PopularCompanyMacrosTest < BaseTest
   def test_twitter
     assert_equal %Q{<a href="https://twitter.com/dhh">@dhh</a>}, parse("\\twitter(@dhh)")
   end
