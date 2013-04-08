@@ -1,6 +1,4 @@
-This lib is still in alpha, wait till I rewrote my blog with it...
+Markascend is an extensible markdown-like, macro-powered html document syntax and processor.
+Can be used as blog-generator, post-formatter or for literate programing.
 
-- Syntax: `syntax.ma`
-- How to use: `api.ma`
-- Editor support:
-  - Textmate: https://github.com/luikore/Markascend.tmbundle
+More on website: http://luikore.github.io/markascend
