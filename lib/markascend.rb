@@ -23,6 +23,10 @@ module Markascend
     video
   ].map{|k| [k, "parse_#{k}"]}
 
+  SANDBOX_MACROS = DEFAULT_MACROS.dup.delete_if do |k, v|
+    %w[html slim options dot].include? k
+  end
+
   # NOTE on the order:
   # - link/bold/italic can contain char
   #   but link need not interpolate with bold or italic, seems too rare cased

@@ -1,9 +1,14 @@
 module Markascend
   class Env
+    attr_reader :autolink, :inline_img, :sandbox
     attr_reader :macros, :line_units, :scope, :options, :footnotes, :srcs, :warnings
     attr_accessor :hi
 
-    def initialize opts
+    def initialize(autolink: %w[http https ftp mailto], inline_img: false, sandbox: false, **opts)
+      @autolink = autolink
+      @inline_img = inline_img
+      @sandbox = sandbox
+
       if opts[:macros]
         @macros = {}
         opts[:macros].each do |m|
@@ -14,6 +19,8 @@ module Markascend
             raise ArgumentError, "macro processor #{meth} not defined"
           end
         end
+      elsif @sandbox
+        @macros = SANDBOX_MACROS
       else
         @macros = DEFAULT_MACROS
       end
@@ -36,8 +43,7 @@ module Markascend
       @footnotes = {} # for [.] and [:] elements
       @srcs = []      # recursive parser stack, everyone has the contiguous right one scanned
       @warnings = {}
-      @options = {}
-      @hi = nil
+      @hi = nil       # current syntax hiliter
     end
 
     def warn msg
