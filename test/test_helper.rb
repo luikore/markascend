@@ -14,4 +14,8 @@ class MarkascendTest < Test::Unit::TestCase
   def setup
     @env = Env.new({})
   end
+
+  def make_sandbox_env
+    @env = Env.new sandbox: true
+  end
 end

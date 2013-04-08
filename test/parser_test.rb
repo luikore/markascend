@@ -6,6 +6,12 @@ class ParserTest < MarkascendTest
     assert_equal "<h1 id=\"cen-tered\">lovely day!</h1>", b.parse
   end
 
+  def test_sandbox_hx
+    make_sandbox_env
+    b = Parser.new @env, "h1#cen-tered lovely day!"
+    assert_equal "<h1>lovely day!</h1>", b.parse
+  end
+
   def test_blocked_hx
     b = Parser.new @env, "h3 followed by \\nop a block\n  content of block"
     assert_equal "<h3>followed by \\nop a block</h3>", b.parse

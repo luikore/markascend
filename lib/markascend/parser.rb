@@ -106,8 +106,10 @@ module Markascend
       hx = @src.scan /h[1-6](\#\w+(-\w+)*)?\ /
       return unless hx
       hx.strip!
-      if hx.size > 2
-        id_attr = %Q{ id="#{hx[3..-1]}"}
+      unless @env.sandbox
+        if hx.size > 2
+          id_attr = %Q{ id="#{hx[3..-1]}"}
+        end
       end
       hx = hx[0...2]
 

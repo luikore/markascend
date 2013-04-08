@@ -89,6 +89,12 @@ module Markascend
         end
       end
 
+      if footnote and env.sandbox
+        scan_lexical_parens || scan_recursive_braces
+        @out << ::Markascend.escape_html(@src.string[pos..(@src.pos)])
+        return true
+      end
+
       case footnote
       when '.'
         unless explain = scan_lexical_parens || scan_recursive_braces

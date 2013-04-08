@@ -27,6 +27,12 @@ class LineUnitTest < MarkascendTest
     assert_equal [:footnote_acronym_ref, "two"], parse('[:two]').first
   end
 
+  def test_sandbox_footnote
+    make_sandbox_env
+    first_note = '[.](first note)'
+    assert_equal first_note, parse('[.](first note)').join
+  end
+
   def parse src
     l = LineUnit.new @env, src, nil
     l.parse []
