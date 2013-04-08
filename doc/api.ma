@@ -59,3 +59,7 @@ h2 Notes on `\dot`
 You need to install [graphviz](graphviz.org) before using the \hi(ma)`\dot` macro.
 
 It is disabled in sandbox mode.
+
+h2 Notes on output format
+
+The output is valid HTML5, but not XHTML.
