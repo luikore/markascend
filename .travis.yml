@@ -8,6 +8,6 @@ rvm:
   # - named group captures in rbx
   # - jruby-19mode
   # - rbx-19mode
-before_script:
+before_install:
   - sudo apt-get install graphviz libmagic-dev
 script: rake
