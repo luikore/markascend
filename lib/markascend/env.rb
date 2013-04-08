@@ -8,7 +8,7 @@ module Markascend
       @autolink = autolink
       @inline_img = inline_img
       @sandbox = sandbox
-      @toc = toc
+      @toc = toc ? {} : false # {id => [x, header_content]}
 
       if opts[:path]
         pwd = File.dirname opts[:path]
@@ -48,9 +48,9 @@ module Markascend
 
       @scope = opts[:scope] || Object.new.send(:binding)
       @options = {}   # for \options macro
-      @footnotes = {} # for [.] and [:] elements
+      @footnotes = {} # {abbrev => details}. for [.] and [:] elements
       @srcs = []      # recursive parser stack, everyone has the contiguous right one scanned
-      @warnings = {}
+      @warnings = {}  # {line => message}
       @hi = nil       # current syntax hiliter
     end
 

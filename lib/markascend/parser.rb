@@ -106,22 +106,41 @@ module Markascend
       hx = @src.scan /h[1-6](\#\w+(-\w+)*)?\ /
       return unless hx
       hx.strip!
-      unless @env.sandbox
-        if hx.size > 2
-          id_attr = %Q{ id="#{hx[3..-1]}"}
+
+      # fiddle id
+      if @env.sandbox
+        if @env.toc
+          id = "-#{@env.toc.size}"
         end
+      else
+        if hx.size > 2
+          id = hx[3..-1]
+        elsif @env.toc
+          id = "-#{@env.toc.size}"
+        end
+      end
+      if id
+        id_attr = %Q{ id="#{id}"}
       end
       hx = hx[0...2]
 
       @out << "<#{hx}#{id_attr}>"
       line, block = scan_line_and_block
       if line
-        LineUnit.new(@env, line, block).parse(@out)
+        out = []
+        LineUnit.new(@env, line, block).parse(out)
+        out.pop if out.last == :"<br>"
+        out.each do |token|
+          @out << token
+        end
+        if id and @env.toc
+          @env.toc[id] = [hx[1].to_i, out.join]
+        end
       end
+      @out << "</#{hx}>"
+
       # consume one more empty line if possible
       @src.scan /\ *\n/ if (!block or block.empty?)
-      @out.pop if @out.last == :"<br>"
-      @out << "</#{hx}>"
       true
     end
 

@@ -11,7 +11,7 @@ h2 Options
 - `:macros`, specify the names of enabled macros. Other macros will be treated as plain text. The default value is `Markascend::DEFAULT_MACROS`.
 - `:line_units`, specify the inline parsers to be used (be careful with the order!). The default value is `Markascend::DEFAULT_LINE_UNITS`.
 - `:sandbox`, a hybrid option to tweak the syntax to be generally safe for user inputs. `false` by default. When set to `true`, footnotes are disabled, header anchors are ignored, and enabled macros are set to `Markascend::SANDBOX_MACROS`. The sandbox macro list can be overriden by the `:macros` option.
-- `:toc`, whether generate table of contents. `false` by default.
+- `:toc`, whether generate table of contents. `false` by default. Header anchors can be customized or generated in the form of `"-#{N}"`. Note that there's no "permalink" generator for headers, but you can implement one with simple javascript.
 
 h2 Customizing macros
 
