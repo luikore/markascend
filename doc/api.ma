@@ -1,10 +1,10 @@
 \hi(ruby)
-h2 Compile
+h1 Compile
 
 |
   Markascend.compile src, options
 
-h2 Options
+h1 Options
 
 - `:autolink`, default value is `%w[http https ftp mailto]`
 - `:inline_img`, compile image into inlined base64, default = `false`
@@ -13,7 +13,7 @@ h2 Options
 - `:sandbox`, a hybrid option to tweak the syntax to be generally safe for user inputs. `false` by default. When set to `true`, footnotes are disabled, header anchors are ignored, and enabled macros are set to `Markascend::SANDBOX_MACROS`. The sandbox macro list can be overriden by the `:macros` option.
 - `:toc`, whether generate table of contents. `false` by default. Header anchors can be customized or generated in the form of `"-#{N}"`. Note that there's no "permalink" generator for headers, but you can implement one with simple javascript.
 
-h2 Customizing macros
+h1 Customizing macros
 
 More macro processors can be added by
 
@@ -29,7 +29,7 @@ Macro names are limited to names like ruby methods.
 |
   Markascend.compile src, macros: %w[fancy_macro del]
 
-h2 Customizing line-unit parsers
+h1 Customizing line-unit parsers
 
 More line-unit parsers can be added by
 
@@ -45,7 +45,7 @@ The list of inline parsers can be changed, or reordered
 |
   Markascend.compile src, line_units: Markascend::DEFAULT_LINE_UNITS + %w[at]
 
-h2 Notes on `\slim`
+h1 Notes on `\slim`
 
 You need to install slim \hi(bash)(`gem ins slim`) and require it before using the \hi(ma)`\slim` macro:
 \hi(ruby)
@@ -54,12 +54,12 @@ You need to install slim \hi(bash)(`gem ins slim`) and require it before using t
 
 It is disabled in sandbox mode.
 
-h2 Notes on `\dot`
+h1 Notes on `\dot`
 
 You need to install [graphviz](graphviz.org) before using the \hi(ma)`\dot` macro.
 
 It is disabled in sandbox mode.
 
-h2 Notes on output format
+h1 Notes on output format
 
 The output is valid HTML5, but not XHTML.
