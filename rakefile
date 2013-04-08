@@ -174,3 +174,10 @@ task :preview => :site do
   url = File.expand_path "gh-pages/index.html"
   activate_url "file://#{url}"
 end
+
+desc "publish gh-pages"
+task :publish_site do
+  Dir.chdir 'gh-pages' do
+    exec 'git commit -am"update" && git push origin gh-pages'
+  end
+end
