@@ -8,7 +8,7 @@ $\\$$ &lt;- NOTE this is a math elem with a pending dollar</code></pre><p>Link:<
 url in recursive braces: [a]{example.com/allow/{nested{braces}}/and/(parens)/in/url}
 no need to escape backslashes in braces: [a]{file:\\\C:\windows}
 link to anchor: [a](#anchor)</code></pre><p>Footnotes:</p><pre><code class="highlight">[.](this is shown in footnote and replaced by a number)
-[.*](this is shown in footnote and replaced by the acronym)</code></pre><p>Using already defined footnote (&quot;one more dot to use&quot;):</p><pre><code class="highlight">[:1]
+[.*](this is shown in footnote and replaced by the acronym: *)</code></pre><p>Using already defined footnote (&quot;one more dot to use&quot;):</p><pre><code class="highlight">[:1]
 [:link by acronym]</code></pre><p>Except math and code, inline elements can be nested.</p><p>By default, text starting with <code class="highlight">http://</code>, <code class="highlight">https://</code> or <code class="highlight">mailto://</code> will be auto-linked, you can change supported protocols or disable all with compile options.</p><p>NOTE: Not very different from markdown here, just less, math and footnotes added. Images are too complex for a simple syntax, it is made into a macro.</p><h2>Headers</h2><pre><code class="highlight">h1 title
 h2#anchor-name title</code></pre><p>NOTE: Anchors are disabled in sandbox mode.</p><h2>Lists</h2><p><code class="highlight">-</code> is the bullet for unordered list</p><pre><code class="highlight">- an entry
 - another entry</code></pre><p><code class="highlight">+</code> is the bullet for ordered list</p><pre><code class="highlight">+ entry 1
