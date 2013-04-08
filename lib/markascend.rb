@@ -5,6 +5,8 @@ require "yaml"
 require "base64"
 require "open3"
 require "pygments"
+require "open-uri"
+require "filemagic"
 
 module Markascend
   VERSION = '0.1'
@@ -74,6 +76,13 @@ module Markascend
       else
         %Q|<pre><code class="highlight">#{s}</code></pre>|
       end
+    end
+
+    def mime buffer
+      fm = FileMagic.new FileMagic::MAGIC_MIME_TYPE
+      res = fm.buffer buffer
+      fm.close
+      res
     end
   end
 end

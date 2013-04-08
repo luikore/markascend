@@ -27,7 +27,22 @@ module Markascend
       end
 
       alt = ::Markascend.escape_attr alt
-      # TODO base64
+      if env.inline_img
+        begin
+          if env.pwd
+            Dir.chdir env.pwd do
+              data = open src, 'rb', &:read
+            end
+          else
+            data = open src, 'rb', &:read
+          end
+          mime = ::Markascend.mime data
+          src = "data:#{mime};base64,#{::Base64.strict_encode64 data}"
+        rescue
+          env.warn $!.message
+        end
+      end
+
       img = %Q|<img src="#{src}" alt="#{alt}"/>|
       if href
         href = ::Markascend.escape_attr href

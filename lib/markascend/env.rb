@@ -1,6 +1,6 @@
 module Markascend
   class Env
-    attr_reader :autolink, :inline_img, :sandbox, :toc
+    attr_reader :autolink, :inline_img, :sandbox, :toc, :pwd
     attr_reader :macros, :line_units, :scope, :options, :footnotes, :srcs, :warnings
     attr_accessor :hi
 
@@ -9,6 +9,13 @@ module Markascend
       @inline_img = inline_img
       @sandbox = sandbox
       @toc = toc
+
+      if opts[:path]
+        pwd = File.dirname opts[:path]
+        if File.directory?(pwd)
+          @pwd = pwd
+        end
+      end
 
       if opts[:macros]
         @macros = {}
