@@ -1,13 +1,14 @@
 module Markascend
   class Env
-    attr_reader :autolink, :inline_img, :sandbox
+    attr_reader :autolink, :inline_img, :sandbox, :toc
     attr_reader :macros, :line_units, :scope, :options, :footnotes, :srcs, :warnings
     attr_accessor :hi
 
-    def initialize(autolink: %w[http https ftp mailto], inline_img: false, sandbox: false, **opts)
+    def initialize(autolink: %w[http https ftp mailto], inline_img: false, sandbox: false, toc: false, **opts)
       @autolink = autolink
       @inline_img = inline_img
       @sandbox = sandbox
+      @toc = toc
 
       if opts[:macros]
         @macros = {}

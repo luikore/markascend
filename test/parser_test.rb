@@ -72,6 +72,13 @@ MA
     assert_equal "<p>\\invalid</p>", Parser.new(@env, invalid).parse
   end
 
+  def test_sandbox_macro
+    make_sandbox_env
+    src = '\options(a.png)'
+    expected = "<p>#{CGI.escape_html src}</p>"
+    assert_equal expected, Parser.new(@env, src).parse
+  end
+
   def test_validate_default_macro_list
     assert_equal Macro.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_MACROS.values.sort
   end

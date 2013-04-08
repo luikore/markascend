@@ -59,7 +59,12 @@ module Markascend
     end
 
     def parse_options
-      env.options.merge! ::YAML.load(content)
+      yaml = ::YAML.load(content) rescue nil
+      if yaml.is_a?(Hash)
+        env.options.merge! yaml
+      else
+        env.warn '\options content should be a yaml hash'
+      end
       ''
     end
 
