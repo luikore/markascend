@@ -45,7 +45,7 @@ Link:
 Footnotes:
 |
   [.](this is shown in footnote and replaced by a number)
-  [.*](this is shown in footnote and replaced by the acronym)
+  [.*](this is shown in footnote and replaced by the acronym: *)
 
 Using already defined footnote ("one more dot to use"):
 |
