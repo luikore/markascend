@@ -53,8 +53,11 @@ module Markascend
     end
 
     def parse_html
-      # TODO sanitize in strict mode
-      content
+      if env.sandbox
+        ::Markascend.sanitize content
+      else
+        content
+      end
     end
 
     def parse_slim

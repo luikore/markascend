@@ -5,8 +5,6 @@ begin
 rescue LoadError
 end
 
-require "slim"
-require "nokogiri" # for parsing the result
 require "tempfile"
 
 class BaseTest < Test::Unit::TestCase

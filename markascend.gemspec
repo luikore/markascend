@@ -10,6 +10,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'ruby-filemagic'
   s.add_runtime_dependency 'slim'
   s.add_runtime_dependency 'pygments.rb'
+  s.add_runtime_dependency 'dimensions'
+  s.add_runtime_dependency 'sanitize'
   s.license = 'BSD'
 
   s.files = Dir.glob("{readme,copying,{lib,test}/**/*.rb,Gemfile,rakefile,doc/*.ma}")

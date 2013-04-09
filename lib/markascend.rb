@@ -4,10 +4,13 @@ require "csv"
 require "yaml"
 require "base64"
 require "open3"
-require "pygments"
 require "open-uri"
+
+require "pygments"
 require "filemagic"
 require "slim"
+require "dimensions"
+require "sanitize"
 
 module Markascend
   VERSION = '0.2'
@@ -27,7 +30,7 @@ module Markascend
   ].map{|k| [k, "parse_#{k}"]}
 
   SANDBOX_MACROS = DEFAULT_MACROS.dup.delete_if do |k, v|
-    %w[html slim options dot].include? k
+    %w[slim options dot].include? k
   end
 
   # NOTE on the order:
@@ -105,25 +108,38 @@ module Markascend
       res
     end
 
-    # strip tags from s
+    # detect image size
+    def img_size buffer
+      io = StringIO.new(buffer)
+      io.extend ::Dimensions::IO
+      io.dimensions
+    end
+
+    # simple strip tags from s
+    # NOTE should not be used for user-generated content
     def strip_tags s
       # deal with html tags only
       s.gsub(/
-        \<\s*script\b
+        \<\s*(script|style)\b
           (?:
-            (["']).*?\1|[^\>] # properties
+            (["']).*?\2|[^\>] # properties
           )*
         \>
         .*?
-        \<\s*\/\s*script\s*\>
+        \<\s*\/\s*\1\s*\>
       /x, '').gsub(/
         \<\s*(?:\/\s*)?
-          \w+\b               # tag name, no need to care xml namespace
+          [\w\:]+\b           # tag name
           (?:
             (["']).*?\1|[^\>] # properties
           )*
         \>
       /x, '')
+    end
+
+    # keep only valid html tags
+    def sanitize s
+      ::Sanitize.clean s, ::Sanitize::Config::BASIC
     end
 
     private
