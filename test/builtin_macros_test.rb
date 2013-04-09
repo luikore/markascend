@@ -12,6 +12,14 @@ class BuiltinMacrosTest < BaseTest
     assert_equal %Q{<a href="href" rel="nofollow"><img src="src" alt="alt"/></a>}, parse("\\img(src alt='alt' href='href')")
   end
 
+  def test_img_escape
+    res = parse %q|\img{"><script alt='">/*' href='http://"*/alert(1)</script>'}|
+    dom = Nokogiri::HTML res
+    assert_equal 'http://"*/alert(1)</script>', dom.css('a').first['href']
+    assert_equal '">/*', dom.css('img').first['alt']
+    assert_equal '"><script', dom.css('img').first['src']
+  end
+
   def test_html
     html = %Q{<a href="href">a</a>&nbsp;}
     assert_equal html, parse("\\html{#{html}}")
@@ -45,7 +53,7 @@ MA
 
   def test_dot
     res = parse("\\dot(digraph G{main -> parse;})").strip
-    src = Nokogiri::XML(res).xpath('//@src').text[/(?<=,).+$/]
+    src = Nokogiri::HTML(res).xpath('//@src').text[/(?<=,).+$/]
     f = Tempfile.new('img')
     f << Base64.decode64(src)
     path = f.path

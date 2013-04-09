@@ -25,8 +25,9 @@ module Markascend
         env.warn "parse error for content of \\img"
         return
       end
-
+      (href = ::Markascend.escape_attr href) if href
       alt = ::Markascend.escape_attr alt
+
       if env.inline_img
         begin
           if env.pwd
@@ -38,14 +39,15 @@ module Markascend
           end
           mime = ::Markascend.mime data
           src = "data:#{mime};base64,#{::Base64.strict_encode64 data}"
+          inlined = true
         rescue
           env.warn $!.message
         end
       end
+      src = ::Markascend.escape_attr src if not inlined
 
       img = %Q|<img src="#{src}" alt="#{alt}"/>|
       if href
-        href = ::Markascend.escape_attr href
         %Q|<a href="#{href}" rel="nofollow">#{img}</a>|
       else
         img

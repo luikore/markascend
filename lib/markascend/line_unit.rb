@@ -49,7 +49,7 @@ module Markascend
       # TODO make protocol configurable
       if (s = @src.scan /(https|http|ftp|mailto)\:\/\/\S+/)
         s.gsub! /"/, '\\"'
-        @out << '<a href="#{s}" rel="nofollow">'
+        @out << '<a href="#{::Markascend.escape_attr s}" rel="nofollow">'
         @out << (::Markascend.escape_html s)
         @out << '</a>'
         true
