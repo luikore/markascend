@@ -62,6 +62,21 @@ MA
     assert output.index('PNG image data'), %Q|generated data should be png: but got #{output.inspect}|
   end
 
+  def test_dot_under_retina
+    dimensions = -> {
+      res = parse('\dot(digraph G{main -> parse;})').strip
+      img = Nokogiri::HTML(res).css('img').first
+      [img['width'].to_f, img['height'].to_f]
+    }
+
+    width, height = dimensions[]
+    @env.instance_variable_set :@retina, true
+    rwidth, rheight = dimensions[]
+
+    assert_equal width / 2.0, rwidth
+    assert_equal height / 2.0, rheight
+  end
+
   def test_options
     parse("\\options(a: [1, 2])")
     assert_equal({"a" => [1, 2]}, @env.options)

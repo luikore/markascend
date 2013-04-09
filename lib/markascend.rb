@@ -112,6 +112,7 @@ module Markascend
     def img_size buffer
       io = StringIO.new(buffer)
       io.extend ::Dimensions::IO
+      io.read
       io.dimensions
     end
 

@@ -38,6 +38,12 @@ module Markascend
             data = open src, 'rb', &:read
           end
           mime = ::Markascend.mime data
+          if env.retina
+            width, height = ::Markascend.img_size data
+            width /= 2.0
+            height /= 2.0
+            size_attrs = %Q|width="#{width}" height="#{height}" |
+          end
           src = "data:#{mime};base64,#{::Base64.strict_encode64 data}"
           inlined = true
         rescue
@@ -46,7 +52,7 @@ module Markascend
       end
       src = ::Markascend.escape_attr src if not inlined
 
-      img = %Q|<img src="#{src}" alt="#{alt}"/>|
+      img = %Q|<img #{size_attrs}src="#{src}" alt="#{alt}"/>|
       if href
         %Q|<a href="#{href}" rel="nofollow">#{img}</a>|
       else
@@ -110,8 +116,13 @@ module Markascend
         return
       end
 
+      width, height = ::Markascend.img_size out
+      if env.retina
+        width /= 2.0
+        height /= 2.0
+      end
       data = ::Base64.strict_encode64 out
-      %Q|<img src="data:image/png;base64,#{data}" alt="#{Markascend.escape_attr content}"/>|
+      %Q|<img width="#{width}" height="#{height}" src="data:image/png;base64,#{data}" alt="#{Markascend.escape_attr content}"/>|
     end
 
     def Macro.generate_csv content, headless
