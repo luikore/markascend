@@ -1,11 +1,13 @@
 module Markascend
   class Env
-    attr_reader :autolink, :inline_img, :sandbox, :toc, :pwd
+    attr_reader :autolink_re, :autolink_http
+    attr_reader :inline_img, :sandbox, :toc, :pwd
     attr_reader :macros, :line_units, :scope, :options, :footnotes, :srcs, :warnings
     attr_accessor :hi
 
     def initialize(autolink: %w[http https ftp mailto], inline_img: false, sandbox: false, toc: false, **opts)
-      @autolink = autolink
+      @autolink_re = /#{Regexp.union autolink}:\/\/\S+/
+      @autolink_http = autolink.include? 'http'
       @inline_img = inline_img
       @sandbox = sandbox
       @toc = toc ? {} : false # {id => [x, header_content]}

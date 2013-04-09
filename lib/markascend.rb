@@ -41,7 +41,7 @@ module Markascend
   DEFAULT_LINE_UNITS = %w[
     inline_code
     math
-    auto_link
+    autolink
     macro
     link
     bold_italic

@@ -45,11 +45,12 @@ module Markascend
       end
     end
 
-    def parse_auto_link
-      # TODO make protocol configurable
-      if (s = @src.scan /(https|http|ftp|mailto)\:\/\/\S+/)
-        s.gsub! /"/, '\\"'
-        @out << '<a href="#{::Markascend.escape_attr s}" rel="nofollow">'
+    def parse_autolink
+      s = @src.scan /\/\/\S+/ if env.autolink_http
+      s = @src.scan env.autolink_re unless s
+      if s
+        s = ::Markascend.escape_attr s
+        @out << '<a href="#{s}" rel="nofollow">'
         @out << (::Markascend.escape_html s)
         @out << '</a>'
         true
