@@ -9,7 +9,7 @@ class BuiltinMacrosTest < BaseTest
 
   def test_img
     assert_equal %Q{<img src="src" alt="alt"/>}, parse("\\img(src alt='alt')")
-    assert_equal %Q{<a href="href"><img src="src" alt="alt"/></a>}, parse("\\img(src alt='alt' href='href')")
+    assert_equal %Q{<a href="href" rel="nofollow"><img src="src" alt="alt"/></a>}, parse("\\img(src alt='alt' href='href')")
   end
 
   def test_html

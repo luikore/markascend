@@ -49,7 +49,7 @@ module Markascend
       # TODO make protocol configurable
       if (s = @src.scan /(https|http|ftp|mailto)\:\/\/\S+/)
         s.gsub! /"/, '\\"'
-        @out << '<a href="#{s}">'
+        @out << '<a href="#{s}" rel="nofollow">'
         @out << (::Markascend.escape_html s)
         @out << '</a>'
         true
@@ -122,9 +122,8 @@ module Markascend
         true
       else
         if addr = scan_lexical_parens || scan_recursive_braces
-          # TODO smarter addr to recognize things like a.b.com
           addr = ::Markascend.escape_attr addr
-          @out << %Q|<a href="#{addr}">#{content}</a>|
+          @out << %Q|<a href="#{addr}" rel="nofollow">#{content}</a>|
           true
         else
           @src.pos = pos

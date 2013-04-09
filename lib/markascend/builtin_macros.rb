@@ -46,7 +46,7 @@ module Markascend
       img = %Q|<img src="#{src}" alt="#{alt}"/>|
       if href
         href = ::Markascend.escape_attr href
-        %Q|<a href="#{href}">#{img}</a>|
+        %Q|<a href="#{href}" rel="nofollow">#{img}</a>|
       else
         img
       end

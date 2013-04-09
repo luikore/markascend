@@ -16,7 +16,7 @@ class LineUnitTest < BaseTest
   end
 
   def test_link
-    assert_equal '<a href="href">a</a>', parse('[a](href)').join
+    assert_equal '<a href="href" rel="nofollow">a</a>', parse('[a](href)').join
   end
 
   def test_footnote
