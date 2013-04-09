@@ -6,6 +6,7 @@ h1 Compile
 
 h1 Options
 
+- `:path`, source file path. Used for static files lookup. If not given, use the current working directory.
 - `:autolink`, default value is `%w[http https ftp mailto]`
 - `:inline_img`, compile image into inlined base64, default = `false`
 - `:macros`, specify the names of enabled macros. Other macros will be treated as plain text. The default value is `Markascend::DEFAULT_MACROS`.
@@ -13,7 +14,9 @@ h1 Options
 - `:sandbox`, a hybrid option to tweak the syntax to be generally safe for user inputs. `false` by default. When set to `true`, footnotes are disabled, header anchors are ignored, and enabled macros are set to `Markascend::SANDBOX_MACROS`. The sandbox macro list can be overriden by the `:macros` option.
 - `:toc`, whether generate table of contents. `false` by default. Header anchors can be customized or generated in the form of `"-#{N}"`. Note that there's no "permalink" generator for headers, but you can implement one with simple javascript.
 - `:retina`, whether treat `\img` and `\dot` outputs as half the size. `false` by default.
-- `:path`, source file path. Used for static files lookup. If not given, use the current working directory.
+  When retina is turned on, graphs may look smaller, you can add instructions to increase dpi to get more pixels to make the size fit:
+  |dot
+    graph [ dpi = 264 ]; // 132 for normal display
 
 h1 Customizing macros
 
