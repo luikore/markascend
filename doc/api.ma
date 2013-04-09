@@ -44,22 +44,3 @@ The list of inline parsers can be changed, or reordered
 
 |
   Markascend.compile src, line_units: Markascend::DEFAULT_LINE_UNITS + %w[at]
-
-h1 Notes on `\slim`
-
-You need to install slim \hi(bash)(`gem ins slim`) and require it before using the \hi(ma)`\slim` macro:
-\hi(ruby)
-|
-  require 'slim'
-
-It is disabled in sandbox mode.
-
-h1 Notes on `\dot`
-
-You need to install [graphviz](graphviz.org) before using the \hi(ma)`\dot` macro.
-
-It is disabled in sandbox mode.
-
-h1 Notes on output format
-
-The output is valid HTML5, but not XHTML.

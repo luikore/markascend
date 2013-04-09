@@ -3,6 +3,8 @@ h1 Introduction
 Markascend is an extensible markdown-like, macro-powered html document syntax and processor.
 Can be used as blog-generator, post-formatter or for literate programing.
 
+The generated output is HTML segment, but not XML.
+
 h1 Requirement
 
 Requires CRuby 2.0.0+ and libmagic. JRuby and Rubinius won't work due to some known issues.
@@ -14,6 +16,8 @@ To install libmagic on Ubuntu
 To install libmagic on Mac
 |sh
   brew install libmagic
+
+If you want to use the \hi(ma)`\dot` macro, you need to install [graphviz](graphviz.org).
 
 h1 Install
 
