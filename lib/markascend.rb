@@ -7,9 +7,10 @@ require "open3"
 require "pygments"
 require "open-uri"
 require "filemagic"
+require "slim"
 
 module Markascend
-  VERSION = '0.1'
+  VERSION = '0.2'
 
   DEFAULT_MACROS = Hash.[] %w[
     del underline sub sup
