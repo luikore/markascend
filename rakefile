@@ -145,10 +145,8 @@ end
 
 desc "run tests"
 task :default do
-  dir = File.dirname __FILE__
-  Dir.glob "#{dir}/test/*_test.rb" do |f|
-    require f
-  end
+  Dir.chdir __dir__
+  exec "rspec"
 end
 
 desc "generate gh-pages"

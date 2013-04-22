@@ -1,19 +1,19 @@
-require_relative "test_helper"
+require_relative "spec_helper"
 
-class PopularCompanyMacrosTest < BaseTest
-  def test_twitter
+describe 'popular company macros' do
+  it 'parses \twitter' do
     assert_equal %Q{<a href="https://twitter.com/dhh">@dhh</a>}, parse("\\twitter(@dhh)")
   end
 
-  def test_weibo
+  it 'parses \weibo' do
     assert_equal %Q{<a href="https://weibo.com/dhh">@dhh</a>}, parse("\\weibo(@dhh)")
   end
 
-  def test_wiki
+  it 'parses \wiki' do
     assert_equal %Q|<a href="http://en.wikipedia.org/wiki/ruby(programing_language)">ruby(programing_language)</a>|, parse("\\wiki{ruby(programing_language)}")
   end
 
-  def test_gist
+  it 'parses \gitst' do
     res = %Q{<script src="https://gist.github.com/luikore/737238.js"></script>}
     assert_equal res, parse("\\gist(luikore/737238)")
     assert_equal res, parse("\\gist(luikore/737238.git)")
@@ -21,7 +21,7 @@ class PopularCompanyMacrosTest < BaseTest
     assert_equal res, parse("\\gist(https://gist.github.com/luikore/737238)")
   end
 
-  def test_video
+  it 'parses \video' do
     youtube = parse("\\video(400x200 youtu.be/watch?v=TGPvtlnwH6E)")
     assert youtube.start_with? '<iframe width="400" height="200"'
     assert youtube.index('/embed/TGPvtlnwH6E'), youtube.inspect

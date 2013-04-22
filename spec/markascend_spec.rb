@@ -1,12 +1,12 @@
-require_relative "test_helper"
+require_relative "spec_helper"
 
-class MarkascendTest < BaseTest
-  def test_strip_tags
+describe Markascend do
+  it 'strips script tags' do
     assert_equal '', Markascend.strip_tags('<script fraud-prop="></script>"></script>')
     assert_equal 'Bold', Markascend.strip_tags('<b>Bold</b>')
   end
 
-  def test_toc
+  it 'generates toc' do
     res = Markascend.compile <<-MA, toc: true
 h1 h1
 h5 h5

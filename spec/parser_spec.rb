@@ -1,23 +1,23 @@
-require_relative "test_helper"
+require_relative "spec_helper"
 
-class ParserTest < BaseTest
-  def test_hx
+describe Parser do
+  it "parses hx" do
     b = Parser.new @env, "h1#cen-tered lovely day!"
     assert_equal "<h1 id=\"cen-tered\">lovely day!</h1>", b.parse
   end
 
-  def test_sandbox_hx
+  it "parses sandbox hx" do
     make_sandbox_env
     b = Parser.new @env, "h1#cen-tered lovely day!"
     assert_equal "<h1>lovely day!</h1>", b.parse
   end
 
-  def test_blocked_hx
+  it "parses blocked hx" do
     b = Parser.new @env, "h3 followed by \\nop a block\n  content of block"
     assert_equal "<h3>followed by \\nop a block</h3>", b.parse
   end
 
-  def test_rec_block
+  it "parses rec block" do
     b = Parser.new @env, <<-MA
 - ul1
 - ul2
@@ -32,8 +32,7 @@ MA
     assert_equal ul, b.parse.strip
   end
 
-  def test_warning_line
-    # should generate warning for missing macro contents
+  it "generates waring for missing macro contents" do
     b = Parser.new @env, <<-MA
 - ul1
   + ol1
@@ -44,7 +43,7 @@ MA
     assert b.warnings[4]
   end
 
-  def test_code_block
+  it "parses code block" do
     code_text = proc do |b|
       t = Nokogiri::HTML(b.parse.strip).xpath('//pre/code').text
       CGI.unescape_html(t).strip
@@ -63,7 +62,7 @@ MA
     assert_equal "puts 'hello world'", code_text[b]
   end
 
-  def test_inline_macro_fallback_but_block_macro_not
+  it "retains content of undefined inline macro, but not for undefined block macro" do
     invalid = "\\invalid{ <content> }"
     expected = "<p>#{CGI.escape_html invalid}</p>"
     assert_equal expected, Parser.new(@env, invalid).parse
@@ -72,22 +71,22 @@ MA
     assert_equal "<p>\\invalid</p>", Parser.new(@env, invalid).parse
   end
 
-  def test_sandbox_macro
+  it 'disables \options in sandbox mode' do
     make_sandbox_env
     src = '\options(a.png)'
     expected = "<p>#{CGI.escape_html src}</p>"
     assert_equal expected, Parser.new(@env, src).parse
   end
 
-  def test_validate_default_macro_list
+  it 'should have valid default macro list' do
     assert_equal Macro.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_MACROS.values.sort
   end
 
-  def test_validate_default_line_unit_parser_list
+  it 'should have valid default line unit parser list' do
     assert_equal LineUnit.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_LINE_UNITS.sort
   end
 
-  def test_footnote_validation
-
+  it 'should generate footnotes' do
+    
   end
 end
