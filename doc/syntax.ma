@@ -47,6 +47,8 @@ Footnotes:
   [.](this is shown in footnote and replaced by a number)
   [.*](this is shown in footnote and replaced by the acronym: *)
 
+[.](this is shown in the bottom)
+
 Using already defined footnote ("one more dot to use"):
 |
   [:1]
@@ -110,12 +112,12 @@ h1 Built-in macros
 The following macros explains themselves:
 |
   \del{deleted}
-  \underline{underline}
+  \underline{underlined}
   \sub{subscript}
   \sup{supscript}
   \img{hello/a.png alt="an image" href="a.b.c"}
 
-Unlike in *Mardown*, all html tags in *Markascend* are escaped. If you write
+Unlike in *Markdown*, all html tags in *Markascend* are escaped. If you write
 |ma
   <div></div>
 
@@ -203,6 +205,13 @@ You need to install [graphviz](http://graphviz.org/) first.
     digraph G{
       main -> parse;
     }
+
+And you get graph like this:
+
+\dot
+  digraph G{
+    main -> parse;
+  }
 
 h1 Popular-company macros
 
