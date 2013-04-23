@@ -85,8 +85,4 @@ MA
   it 'should have valid default line unit parser list' do
     assert_equal LineUnit.instance_methods.grep(/parse_/).map(&:to_s).sort, Markascend::DEFAULT_LINE_UNITS.sort
   end
-
-  it 'should generate footnotes' do
-    
-  end
 end

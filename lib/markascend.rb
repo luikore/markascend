@@ -78,6 +78,8 @@ module Markascend
       s ? (s.gsub /"/, '&quot;') : ''
     end
 
+    # todo escape href to be free of javascript when needed
+
     # escape string so that the result can be placed inside a `<pre>` tag
     def escape_pre s
       s.gsub(/(<)|(>)|&/){$1 ? '&lt;' : $2 ? '&gt;' : '&amp;'}
@@ -174,8 +176,8 @@ module Markascend
       res = '<div id="footnotes"><ol>'
       i = 0
       footnotes.each do |abbrev, detail|
-        res << %Q|<li id="footnote-#{i}">#{escape_html detail}</li>|
         i += 1
+        res << %Q|<li id="footnote-#{i}">#{escape_html detail}</li>|
       end
       res << "</ol></div>"
     end

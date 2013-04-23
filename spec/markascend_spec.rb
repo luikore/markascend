@@ -16,4 +16,13 @@ h3 h3
     assert_equal ['li', 'ol'], dom.children.map(&:name)
     assert_equal ['ol', 'li'], dom.children[1].children.map(&:name)
   end
+
+  it 'generates footnotes' do
+    src = '[.](first note shown as number) [.*](second note shown as star)'
+    res = Markascend.compile(src)
+    dom = Nokogiri::HTML(res)
+    hrefs = dom.css('a[href]').map{|e| e['href']}
+    ids = dom.css('li[id]').map{|e| e['id']}
+    assert_equal hrefs, ids.map{|id| "##{id}"}
+  end
 end
